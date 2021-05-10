@@ -19,8 +19,9 @@ class Match:
         self.player2_score = 0
 
     def enter_result(self):
-        self.player1_score = int(input(f"Entrez le score de {self.player1['nom']} {self.player1['prenom']} : "))
-        self.player2_score = int(input(f"Entrez le score de {self.player2['nom']} {self.player2['prenom']} : "))
-        result = ([self.player1['nom'] + self.player1["prenom"], self.player1_score],
-                  [self.player2['nom'] + self.player2["prenom"], self.player2_score])
+        self.player1_score = int(input(f"\nEntrez le score de {self.player1['nom']} {self.player1['prenom']} : "))
+        self.player2_score = int(input(f"Entrez le score de {self.player2['nom']} {self.player2['prenom']} : \n"))
+
+        result = ([f"{self.player1['nom']} {self.player1['prenom']}", self.player1_score],
+                  [f"{self.player2['nom']} {self.player2['prenom']}", self.player2_score])
         return result

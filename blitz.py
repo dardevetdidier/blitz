@@ -1,5 +1,7 @@
 import json
 from match import sort_by_rank, Match
+from menu import main_menu, tournament_menu
+import pprint
 
 
 class Player:
@@ -11,7 +13,7 @@ class Player:
         self.sex = input("Sexe : ")
         self.rank = int(input("Classement : "))
         # self.score = 0
-        # self.total_score = 0
+        self.total_score = 0
 
         self.player = {
             'nom': self.name,
@@ -40,6 +42,7 @@ class StartingPair:
     starting_pair = []
 
     def __init__(self):
+
         for index in range(0, 1):
             self.player1 = sort_by_rank()[index]
             self.player2 = sort_by_rank()[index + 4]
@@ -61,11 +64,11 @@ class StartingAllPairs:
 
 class Round:
     def __init__(self):
-        self.round_name = ""
-        self.start_date = ""
-        self.start_hour = ""
-        self.end_date = ""
-        self.end_hour = ""
+        self.r_name = ""
+        self.r_start_date = ""
+        self.r_start_hour = ""
+        self.r_end_date = ""
+        self.r_end_hour = ""
         self.all_pairs = StartingAllPairs
 
 
@@ -83,7 +86,10 @@ class Tournament:
         pass
 
 
-print(sort_by_rank())
+if main_menu() == 1:
+    tournament_menu()
+
+pprint.pprint(sort_by_rank(), sort_dicts=False)
 match = Match()
 print(match.enter_result())
 
