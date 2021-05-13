@@ -1,0 +1,74 @@
+{
+    "name": "Tournoi1",
+    "location": "Bordeaux",
+    "date": "12/12/2021",
+    "players": [
+        {
+            "player_id": 1,
+            "name": "Dardevet",
+            "first_name": "Didier",
+            "birth": "19/10/1975",
+            "sex": "M",
+            "rank": 16
+        },
+        {
+            "player_id": 2,
+            "name": "Hendrix",
+            "first_name": "Jimi",
+            "birth": "16/05/1942",
+            "sex": "M",
+            "rank": 12
+        },
+        {
+            "player_id": 3,
+            "name": "Einstein",
+            "first_name": "Albert",
+            "birth": "04/06/1985",
+            "sex": "M",
+            "rank": 1
+        },
+        {
+            "player_id": 4,
+            "name": "Karenine",
+            "first_name": "Anna",
+            "birth": "08/06/1974",
+            "sex": "F",
+            "rank": 24
+        },
+        {
+            "player_id": 5,
+            "name": "Coltrane",
+            "first_name": "John",
+            "birth": "23/08/1962",
+            "sex": "M",
+            "rank": 29
+        },
+        {
+            "player_id": 6,
+            "name": "Wayne",
+            "first_name": "Bruce",
+            "birth": "03/04/1984",
+            "sex": "M",
+            "rank": 38
+        },
+        {
+            "player_id": 7,
+            "name": "Newton",
+            "first_name": "Isaac",
+            "birth": "09/09/1999",
+            "sex": "M",
+            "rank": 3
+        },
+        {
+            "player_id": 8,
+            "name": "Picasso",
+            "first_name": "Pablo",
+            "birth": "20/07/1961",
+            "sex": "M",
+            "rank": 44
+        }
+    ],
+    "rounds": [],
+    "time_control": "Blitz",
+    "notes": "RAS"
+}
