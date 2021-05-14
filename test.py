@@ -79,6 +79,8 @@ def generates_players():
         birth = input("Date de naissance : ")
         sex = input("Sexe : ")
         rank = int(input("Classement : "))
+
+        # TODO : FAUT-IL METTRE LA SUITE DANS MAIN()?
         player = Player(player_id, name, first_name, birth, sex, rank)
         players.append(player.player)
     with open('players.json', "w", encoding='utf-8') as f:
@@ -94,6 +96,8 @@ def launch_tournament():
     date = input("Date du tournoi : ")
     time_control = input("'Bullet', 'Blitz' ou 'Coup rapide'? : ")
     notes = input("Remarques du directeur : ")
+
+    # TODO : FAUT-IL METTRE LA SUITE DANS MAIN()
     players = generates_players()
     tournament = Tournament(name, location, date, players, time_control, notes)
     tournament.display_tournament_infos()
@@ -123,7 +127,7 @@ class Tournament:
             'notes': self.notes
         }
 
-    def display_tournament_infos(self):
+    def display_tournament_infos(self):  # -> Vue
         print(self.tournaments)
 
 
@@ -166,7 +170,7 @@ class FirstRound:
         self.pairs = StartingAllPairs.starting_pairs_list
 
 
-class StartingAllPairs:
+class StartingAllPairs:  # Methode round ou tournoi ou mettre round dans tournoi
     starting_pairs_list = []
 
     def __init__(self):
@@ -178,7 +182,7 @@ class StartingAllPairs:
             StartingAllPairs.starting_pairs_list.append(self.starting_pair)
 
 
-# Cette classe ne sert à rien !!!! cf def enter_results
+# Cette classe ne sert à rien !!!! cf def enter_results()
 class Results:
     def __init__(self, player1_score, player2_score):
         for index in range(0, 1):
@@ -202,6 +206,7 @@ def enter_results(player1, player2):
         player1_score = float(input(f"\nEntrez le score de {player1['name']} {player1['first_name']} : "))
         player2_score = float(input(f"Entrez le score de {player2['name']} {player2['first_name']} : "))
     # TODO : Ajouter score au total score -> json ou instance ?
+
     result = ([f"{player1['name']} {player1['first_name']}", player1_score],
               [f"{player2['name']} {player2['first_name']}", player2_score])
     # result = Results(player1_score, player2_score).save_results()
@@ -217,4 +222,5 @@ for i in range(len(pairs)):
     results = enter_results(pairs[i][0], pairs[i][-1])
     print(results)
     results_list.append(results)
+
 pprint.pprint(results_list)
