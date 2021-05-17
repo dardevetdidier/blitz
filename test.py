@@ -162,7 +162,8 @@ class Player:
             'first_name': self.first_name,
             'birth': self.birth,
             'sex': self.sex,
-            'rank': self.rank
+            'rank': self.rank,
+            'total_score': self.total_score
         }
 
     def save_player(self):
@@ -220,22 +221,25 @@ def enter_results(player1, player2):
         player1_score = float(input(f"\nEntrez le score de {player1['name']} {player1['first_name']} : "))
         player2_score = float(input(f"Entrez le score de {player2['name']} {player2['first_name']} : "))
     # TODO : Ajouter score au total score -> json ou instance ?
-
+    player1['total_score'] = player1_score
+    player2['total_score'] = player2_score
     result = ([f"{player1['name']} {player1['first_name']}", player1_score],
               [f"{player2['name']} {player2['first_name']}", player2_score])
     # result = Results(player1_score, player2_score).save_results()
     return result
 
 
-pairs = launch_tournament().pairs_by_rank()  # ---> objet tournament
-
-# pairs = StartingAllPairs().starting_pairs_list
-pprint.pprint(pairs, sort_dicts=False)
+pairs = launch_tournament()  # ---> objet tournament
+pairs.display_tournament_infos()
+pairs_sort_rank = pairs.pairs_by_rank()
+pprint.pprint(pairs_sort_rank, sort_dicts=False)
 
 results_list = []
-for i in range(len(pairs)):
-    results = enter_results(pairs[i][0], pairs[i][-1])
+for i in range(len(pairs_sort_rank)):
+    results = enter_results(pairs_sort_rank[i][0], pairs_sort_rank[i][-1])
+
     print(results)
     results_list.append(results)
 
 pprint.pprint(results_list)
+pairs.display_tournament_infos()
