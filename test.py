@@ -60,7 +60,7 @@
 import json
 import pprint
 from random import randint
-
+from time import localtime, strftime
 
 # def sort_by_rank():
 #     """Sorts list of players by rank and returns a new list of players"""
@@ -108,6 +108,22 @@ def launch_tournament():
     return tournament
 
 
+def enter_results(player1, player2):
+    """User enters results of the round. Returns Tuple of 2 lists ([player1, score1], [player2, score2])"""
+    player1_score = 0.0
+    player2_score = 0.0
+    while not player1_score + player2_score == 1:
+        player1_score = float(input(f"\nEntrez le score de {player1['name']} {player1['first_name']} : "))
+        player2_score = float(input(f"Entrez le score de {player2['name']} {player2['first_name']} : "))
+    # TODO : Ajouter score au total score -> json ou instance ?
+    player1['total_score'] = player1_score
+    player2['total_score'] = player2_score
+    result = ([f"{player1['name']} {player1['first_name']}", player1_score],
+              [f"{player2['name']} {player2['first_name']}", player2_score])
+    # result = Results(player1_score, player2_score).save_results()
+    return result
+
+
 class Tournament:
     def __init__(self, name, location, date, players, time_control, notes):
         self.name = name
@@ -144,6 +160,9 @@ class Tournament:
     def display_tournament_infos(self):  # -> Vue
         print(self.tournaments)
 
+    def save_tournament(self):
+        pass
+
 
 class Player:
 
@@ -166,6 +185,9 @@ class Player:
             'total_score': self.total_score
         }
 
+    def add_player_to_db(self):
+        pass
+
     def save_player(self):
         """load json file, add player (dict) into file return the list of all players"""
         with open("players.json", "r", encoding="utf-8") as f:
@@ -176,6 +198,44 @@ class Player:
         with open('players.json', "w", encoding="utf-8") as f:
             json.dump(players, f, indent=4, ensure_ascii=False)
 
+
+class Round:
+
+    def __init__(self, players_pairs):
+        self.name = ''
+        self.start_time = None  # changes when round is created
+        self.end_time = None  # changes when round is over
+        self.players_pairs = players_pairs
+        self.scores = None
+        self.round_is_on = False
+        self.round_is_over = True
+        self.round_number = 1
+        self.round_list = []
+
+    def starts_round(self, num_round):
+
+        if not (self.round_number == num_round and self.round_is_on):
+            self.round_is_on = True
+            print(f"Création du round{self.round_number}\n")
+            self.name = f"round_{self.round_number}"
+            self.start_time = f"Début : {strftime('%a %d %b %Y %H:%M:%S', localtime())}"
+            self.round_list.extend([self.name, self.start_time, self.end_time, self.players_pairs, self.scores])
+        else:
+            print("Création d'un round impossible")
+
+        return self.round_list
+
+    def ends_round(self, scores):
+        if self.round_is_over:  # round_is_over is true when user chooses 'stop round' in round menu
+            self.end_time = f"Fin : {strftime('%a %d %b %Y %H:%M:%S', localtime())}"
+            self.round_list[2] = self.end_time
+            self.round_list[-1] = scores
+            self.round_number += 1
+            self.round_is_on = False
+        return self.round_list
+
+    def display_round_infos(self):
+        pass
 
 # class FirstRound:
 #     def __init__(self, name, start_time):
@@ -210,29 +270,16 @@ class Player:
 #         scores = ([f"{self.player1['name']} {self.player1['first_name']}", self.player1_score],
 #                   [f"{self.player2['name']} {self.player2['first_name']}", self.player2_score])
 #
-#         return scores
-
-
-def enter_results(player1, player2):
-    """User enters results of the round. Returns Tuple of 2 lists ([player1, score1], [player2, score2])"""
-    player1_score = 0.0
-    player2_score = 0.0
-    while not player1_score + player2_score == 1:
-        player1_score = float(input(f"\nEntrez le score de {player1['name']} {player1['first_name']} : "))
-        player2_score = float(input(f"Entrez le score de {player2['name']} {player2['first_name']} : "))
-    # TODO : Ajouter score au total score -> json ou instance ?
-    player1['total_score'] = player1_score
-    player2['total_score'] = player2_score
-    result = ([f"{player1['name']} {player1['first_name']}", player1_score],
-              [f"{player2['name']} {player2['first_name']}", player2_score])
-    # result = Results(player1_score, player2_score).save_results()
-    return result
-
+#         return scores_
 
 pairs = launch_tournament()  # ---> objet tournament
 pairs.display_tournament_infos()
 pairs_sort_rank = pairs.pairs_by_rank()
 pprint.pprint(pairs_sort_rank, sort_dicts=False)
+
+round_1 = Round(pairs_sort_rank)
+print(round_1.starts_round(pairs.num_rounds))
+
 
 results_list = []
 for i in range(len(pairs_sort_rank)):
@@ -240,6 +287,8 @@ for i in range(len(pairs_sort_rank)):
 
     print(results)
     results_list.append(results)
+
+pprint.pprint(round_1.ends_round(results_list), sort_dicts=False)
 
 pprint.pprint(results_list)
 pairs.display_tournament_infos()

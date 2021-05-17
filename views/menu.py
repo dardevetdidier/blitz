@@ -7,32 +7,33 @@ def main_menu():
 4: Afficher le rapport
 """)
 
-    choix = 0
+    user_choice = 0
     while True:
         try:
-            choix = int(input("Entrez votre choix: "))
-            if choix in range(1, 5):
+            user_choice = int(input("Entrez votre choix: "))
+            if user_choice in range(1, 5):
                 break
         except ValueError:
             continue
-    return choix
+    return user_choice
 
 
 def tournament_menu():
     print("""
 ****** Menu Tournoi ******
 1: Entrer les informations
-2: Ajouter les 8 joueurs
-3: Générer une ronde
+2: Débuter un round
+3: Terminer un round
 4: Entrer un résultat
+5: Retour menu principal
 """)
 
-    choix = 0
+    user_choice = 0
     while True:
         try:
-            choix = int(input("Entrez votre choix: "))
-            if choix in range(1, 4):
+            user_choice = int(input("Entrez votre choix: "))
+            if user_choice in range(1, 6):
                 break
         except ValueError:
             continue
-    return choix
+    return user_choice
