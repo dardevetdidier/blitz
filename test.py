@@ -62,6 +62,7 @@ from pprint import pprint
 from random import randint
 from time import localtime, strftime
 
+
 # def sort_by_rank():
 #     """Sorts list of players by rank and returns a new list of players"""
 #     # with open("players.json", "r", encoding="utf-8") as f:
@@ -119,8 +120,8 @@ def enter_results(player1, player2):
 
     player1['total_score'] = player1_score
     player2['total_score'] = player2_score
-    result = ([f"{player1['name']} {player1['first_name']}", player1_score],
-              [f"{player2['name']} {player2['first_name']}", player2_score])
+    result = ([f"player {player1['player_id']}", player1_score],
+              [f"player {player2['player_id']}", player2_score])
     # result = Results(player1_score, player2_score).save_results()
     return result
 
@@ -161,8 +162,30 @@ class Tournament:
     def pairs_by_score(self):
         """Sorts list of players by score and creates 4 pairs. If scores are equals, sort by rank.
          returns a list of 4 lists of 2 players"""
+
         score_sorted_list = sorted(self.players, key=lambda k: k['total_score'], reverse=True)
-        return score_sorted_list
+        # TODO : reorganiser selon MVC
+        # TODO : si scores sont egaux trier en fonction du rang
+        pprint(score_sorted_list)
+        pairs_sort_by_score = []
+        for player in range(0, 8, 2):
+            pair_sort_by_score = []
+            player1 = score_sorted_list[player]
+            player2 = {}
+            for r in range(len(self.rounds)):
+                for p in range(len(self.rounds[r][4])):
+
+                    if not (score_sorted_list[player]['player_id'] in self.rounds[r][4][p] and
+                            score_sorted_list[player + 1]['player_id'] in self.rounds[r][4][p]):
+
+                        player2 = score_sorted_list[player + 1]
+                    else:
+                        if player <= len(score_sorted_list) - 3:
+                            player2 = score_sorted_list[player + 2]
+            pair_sort_by_score.extend([player1, player2])
+            pairs_sort_by_score.append(pair_sort_by_score)
+
+        return pairs_sort_by_score
 
     def display_tournament_infos(self):  # -> Vue
         return self.tournaments
@@ -244,6 +267,7 @@ class Round:
     def display_round_infos(self):
         pass
 
+
 # class FirstRound:
 #     def __init__(self, name, start_time):
 #         self.round_name = name
@@ -309,7 +333,7 @@ round_ended = round_1.ends_round(results_list)
 pprint(round_ended, sort_dicts=False)
 
 # envoie les infos du round dans l'attribut rounds de la classe tournament
-tournament_1.tournaments['rounds'] = round_ended
+tournament_1.tournaments['rounds'].append(round_ended)
 
 # affiche les infos du tournoi
 print(f"\ninfos du tournoi:\n")
@@ -318,4 +342,3 @@ pprint(tournament_1.display_tournament_infos(), sort_dicts=False)
 # affiche la liste des joueurs triés par score total
 print(f"\nListe des joueurs triés par score :\n")
 pprint(tournament_1.pairs_by_score(), sort_dicts=False)
-
