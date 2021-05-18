@@ -58,7 +58,7 @@
 
 # sort list of players by rank
 import json
-import pprint
+from pprint import pprint
 from random import randint
 from time import localtime, strftime
 
@@ -92,11 +92,11 @@ def generates_players():
 
 def launch_tournament():
     """User enters informations of tournament and instances players"""
-    name = input("Nom du tournoi : ")
-    location = input("Lieu du tournoi :  ")
-    date = input("Date du tournoi : ")
-    time_control = input("'Bullet', 'Blitz' ou 'Coup rapide'? : ")
-    notes = input("Remarques du directeur : ")
+    name = 'tournoi 1'  # input("Nom du tournoi : ")
+    location = 'ici'  # input("Lieu du tournoi :  ")
+    date = '12/12/2021'  # input("Date du tournoi : ")
+    time_control = 'Bullet'  # input("'Bullet', 'Blitz' ou 'Coup rapide'? : ")
+    notes = 'RAS'  # input("Remarques du directeur : ")
 
     players = generates_players()
     tournament = Tournament(name, location, date, players, time_control, notes)
@@ -116,7 +116,7 @@ def enter_results(player1, player2):
     while not player1_score + player2_score == 1:
         player1_score = float(input(f"\nEntrez le score de {player1['name']} {player1['first_name']} : "))
         player2_score = float(input(f"Entrez le score de {player2['name']} {player2['first_name']} : "))
-    # TODO : Ajouter score au total score -> json ou instance ?
+
     player1['total_score'] = player1_score
     player2['total_score'] = player2_score
     result = ([f"{player1['name']} {player1['first_name']}", player1_score],
@@ -158,8 +158,14 @@ class Tournament:
             pairs_sort_by_rank.append(pair_sort_by_rank)
         return pairs_sort_by_rank
 
+    def pairs_by_score(self):
+        """Sorts list of players by score and creates 4 pairs. If scores are equals, sort by rank.
+         returns a list of 4 lists of 2 players"""
+        score_sorted_list = sorted(self.players, key=lambda k: k['total_score'], reverse=True)
+        return score_sorted_list
+
     def display_tournament_infos(self):  # -> Vue
-        print(self.tournaments)
+        return self.tournaments
 
     def save_tournament(self):
         pass
@@ -273,26 +279,43 @@ class Round:
 #
 #         return scores_
 # créer un tournoi
-pairs = launch_tournament()  # ---> objet tournament
-pairs.display_tournament_infos()
+tournament_1 = launch_tournament()  # ---> objet tournament
+tournament_1.display_tournament_infos()
 
 # crée les paires selon le classement
-pairs_sort_rank = pairs.pairs_by_rank()
-pprint.pprint(pairs_sort_rank, sort_dicts=False)
+pairs_sort_rank = tournament_1.pairs_by_rank()
+print(f"\npaires triées par classement:\n")
+pprint(pairs_sort_rank, sort_dicts=False)
 
 # crée le premier tour
 round_1 = Round(pairs_sort_rank)
-print(round_1.starts_round(pairs.num_rounds))
+print(f"\nCreation du round 1:\n")
+pprint(round_1.starts_round(tournament_1.num_rounds), sort_dicts=False)
 
 # entrer les résultats
 
 results_list = []
 for i in range(len(pairs_sort_rank)):
     results = enter_results(pairs_sort_rank[i][0], pairs_sort_rank[i][-1])
-    print(results)
     results_list.append(results)
 
-pprint.pprint(round_1.ends_round(results_list), sort_dicts=False)
+# affiche la liste des resultats par pairs
+print(f"Resultats par pairs:\n")
+pprint(results_list)
 
-pprint.pprint(results_list)
-pairs.display_tournament_infos()
+# affiche le round terminé
+print(f"\nInfos du round:\n")
+round_ended = round_1.ends_round(results_list)
+pprint(round_ended, sort_dicts=False)
+
+# envoie les infos du round dans l'attribut rounds de la classe tournament
+tournament_1.tournaments['rounds'] = round_ended
+
+# affiche les infos du tournoi
+print(f"\ninfos du tournoi:\n")
+pprint(tournament_1.display_tournament_infos(), sort_dicts=False)
+
+# affiche la liste des joueurs triés par score total
+print(f"\nListe des joueurs triés par score :\n")
+pprint(tournament_1.pairs_by_score(), sort_dicts=False)
+
