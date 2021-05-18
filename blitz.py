@@ -1,24 +1,52 @@
-# from controllers.launch_tournament import launch_tournament
-from models.tournament import Tournament
-from test import *
-
-launch_tournament()
-pairs = StartingAllPairs().starting_pairs_list
-print(pairs)
-
-#
-# pprint.pprint(pairs, sort_dicts=False)
+from controllers.launch_tournament import launch_tournament
+from controllers.enter_results import enter_results
+from models.rounds import Round
+from pprint import pprint
 
 
-# pprint.pprint(sort_by_rank(), sort_dicts=False)
-# match = Match()
-# print(match.enter_result())
+# ***************** --> MAIN *****************************
+# créer un tournoi
+tournament_1 = launch_tournament()  # ---> objet tournament
+tournament_1.display_tournament_infos()
 
-# pairs = StartingPair()
-# print(pairs.starting_pair)
-# ajouter joueur à la base de donnée
+# crée les paires selon le classement
+pairs_sort_rank = tournament_1.pairs_by_rank()
+print(f"\npaires triées par classement:\n")
+pprint(pairs_sort_rank, sort_dicts=False)
+
+# crée le premier tour
+round_1 = Round(pairs_sort_rank)
+print(f"\nCreation du round 1:\n")
+pprint(round_1.starts_round(tournament_1.num_rounds), sort_dicts=False)
+
+# entrer les résultats
+results_list = []
+for i in range(len(pairs_sort_rank)):
+    results = enter_results(pairs_sort_rank[i][0], pairs_sort_rank[i][-1])
+    results_list.append(results)
+
+# affiche la liste des resultats par pairs
+print(f"Resultats par pairs:\n")
+pprint(results_list)
+
+# affiche le round terminé
+print(f"\nInfos du round:\n")
+round_ended = round_1.ends_round(results_list)
+pprint(round_ended, sort_dicts=False)
+
+# envoie les infos du round dans l'attribut rounds de la classe tournament
+tournament_1.tournaments['rounds'].append(round_ended)
+
+# affiche les infos du tournoi
+print(f"\ninfos du tournoi:\n")
+pprint(tournament_1.display_tournament_infos(), sort_dicts=False)
+
+# affiche la liste des joueurs triés par score total
+print(f"\nListe des joueurs triés par score :\n")
+pprint(tournament_1.pairs_by_score(), sort_dicts=False)
 
 
-# TODO 2 : Créer paire de joueurs -> système suisse
 
-# TODO 3 : Créer résultats avec (inputs) -> fichier json ?
+
+# TODO : améliorer la creation de paires : si meme score total > classer par rang
+
