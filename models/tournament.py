@@ -22,6 +22,7 @@ class Tournament:
             'notes': self.notes
         }
 
+
     def pairs_by_rank(self):
         """Sorts list of players by rank and creates 4 pairs. returns a list of 4 lists of 2 players"""
         rank_sorted_list = sorted(self.players, key=lambda k: k['rank'])
@@ -39,9 +40,29 @@ class Tournament:
          returns a list of 4 lists of 2 players"""
 
         score_sorted_list = sorted(self.players, key=lambda k: k['total_score'], reverse=True)
-        # TODO : reorganiser selon MVC
-        # TODO : si scores sont egaux trier en fonction du rang
-        pprint(score_sorted_list)
+        # Sort by rank if equal scores
+        new_list = []
+        score_rank_sort_list = []
+        for i in range(0, 8, 2):
+            if score_sorted_list[i]['total_score'] == score_sorted_list[i+1]['total_score']:
+                new_list.append(score_sorted_list[i])
+                new_list.append(score_sorted_list[i+1])
+            else:
+                new_list.append(score_sorted_list[i])
+                new_list = sorted(new_list, key=lambda k: k['rank'])
+                for player in new_list:
+                    score_rank_sort_list.append(player)
+                new_list.clear()
+                new_list.append(score_sorted_list[i+1])
+        new_list = sorted(new_list, key=lambda k: k['rank'])
+        for player in new_list:
+            score_rank_sort_list.append(player)
+        pprint(score_rank_sort_list, sort_dicts=False)
+
+        score_sorted_list = score_rank_sort_list
+        pprint(score_sorted_list, sort_dicts=False)
+
+        # create pairs
         pairs_sort_by_score = []
         for player in range(0, 8, 2):
             pair_sort_by_score = []
@@ -49,10 +70,8 @@ class Tournament:
             player2 = {}
             for r in range(len(self.rounds)):
                 for p in range(len(self.rounds[r][4])):
-
                     if not (score_sorted_list[player]['player_id'] in self.rounds[r][4][p] and
                             score_sorted_list[player + 1]['player_id'] in self.rounds[r][4][p]):
-
                         player2 = score_sorted_list[player + 1]
                     else:
                         if player <= len(score_sorted_list) - 3:
