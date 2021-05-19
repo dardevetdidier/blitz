@@ -15,7 +15,7 @@ def generates_players():  # --> controllers
         rank = randint(1, 50)  # int(input("Classement : "))
 
         player = Player(player_id, name, first_name, birth, sex, rank)
-        players.append(player.player)
+        players.append(player.serialize_player())
     # with open('players.json', "w", encoding='utf-8') as f:
     #     json.dump(players, f, indent=4, ensure_ascii=False)
     return players
