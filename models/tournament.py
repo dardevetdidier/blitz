@@ -1,6 +1,3 @@
-from pprint import pprint
-
-
 class Tournament:
     def __init__(self, name, location, date, players, time_control, notes):
         self.name = name
@@ -12,7 +9,18 @@ class Tournament:
         self.time_control = time_control
         self.notes = notes
 
-        self.tournaments = {
+        # self.serialized_tournament = {
+        #     'name': self.name,
+        #     'location': self.location,
+        #     'date': self.date,
+        #     'players': self.players,
+        #     'rounds': self.rounds,
+        #     'time_control': self.time_control,
+        #     'notes': self.notes
+        # }
+
+    def serialize_tournament(self):
+        serialized_tournament = {
             'name': self.name,
             'location': self.location,
             'date': self.date,
@@ -21,6 +29,7 @@ class Tournament:
             'time_control': self.time_control,
             'notes': self.notes
         }
+        return serialized_tournament
 
     def pairs_by_rank(self):
         """Sorts list of players by rank and creates 4 pairs. returns a list of 4 lists of 2 players"""
@@ -80,7 +89,7 @@ class Tournament:
         return pairs_sort_by_score
 
     def display_tournament_infos(self):  # -> Vue
-        return self.tournaments
+        return self.serialize_tournament()
 
     def save_tournament(self):
         pass

@@ -35,7 +35,8 @@ round_ended = round_1.ends_round(results_list)
 pprint(round_ended, sort_dicts=False)
 
 # envoie les infos du round dans l'attribut rounds de la classe tournament
-tournament_1.tournaments['rounds'].append(round_ended)
+tournament_1.rounds.append(round_ended)
+# tournament_1.serialized_tournament['rounds'].append(round_ended)
 
 # affiche les infos du tournoi
 print(f"\ninfos du tournoi:\n")
@@ -44,9 +45,3 @@ pprint(tournament_1.display_tournament_infos(), sort_dicts=False)
 # affiche la liste des joueurs triés par score total
 print(f"\nListe des joueurs triés par score :\n")
 pprint(tournament_1.pairs_by_score(), sort_dicts=False)
-
-
-
-
-# TODO : améliorer la creation de paires : si meme score total > classer par rang
-
