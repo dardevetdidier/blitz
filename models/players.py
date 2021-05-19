@@ -22,6 +22,7 @@ class Player:
         #     'total_score': self.total_score
         # }
 
+    @property
     def serialize_player(self):
         serialized_player = {
             'player_id': self.player_id,
@@ -42,7 +43,7 @@ class Player:
         with open("players.json", "r", encoding="utf-8") as f:
             players = json.load(f)
 
-        players.append(self.serialize_player())
+        players.append(self.serialize_player)
 
         with open('players.json', "w", encoding="utf-8") as f:
             json.dump(players, f, indent=4, ensure_ascii=False)

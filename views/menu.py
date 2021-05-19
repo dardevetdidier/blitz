@@ -1,39 +1,37 @@
-def main_menu():
-    print("""
-****** BLITZ ******
-1: Créer un tournoi
-2: Ajouter un joueur à la base de données
-3: Mettre à jour le classement
-4: Afficher le rapport
-""")
+from .art import logo, main_menu_art, tournament_menu_art
 
+
+def choose_item(items):
     user_choice = 0
     while True:
         try:
             user_choice = int(input("Entrez votre choix: "))
-            if user_choice in range(1, 5):
+            if user_choice in range(1, items + 1):
                 break
         except ValueError:
             continue
     return user_choice
 
 
-def tournament_menu():
+def display_main_menu():
+    print(logo)
+    print(main_menu_art)
+    print("""1: Menu Tournoi
+2: Menu Joueurs
+3: Menu Classement
+4: Menu Rapports
+5: Quitter
+""")
+
+
+def display_tournament_menu():
+    print(tournament_menu_art)
     print("""
-****** Menu Tournoi ******
-1: Entrer les informations
+1: Créer un tournoi
 2: Débuter un round
 3: Terminer un round
 4: Entrer un résultat
 5: Retour menu principal
 """)
 
-    user_choice = 0
-    while True:
-        try:
-            user_choice = int(input("Entrez votre choix: "))
-            if user_choice in range(1, 6):
-                break
-        except ValueError:
-            continue
-    return user_choice
+

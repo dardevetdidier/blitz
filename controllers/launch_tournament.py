@@ -4,10 +4,13 @@ from controllers.generates_players import generates_players
 
 def launch_tournament():
     """User enters informations of tournament and instances players"""
+    time_control_list = ["bullet", "blitz", "coup rapide"]
+    time_control = ''
     name = 'tournoi 1'  # input("Nom du tournoi : ")
     location = 'ici'  # input("Lieu du tournoi :  ")
     date = '12/12/2021'  # input("Date du tournoi : ")
-    time_control = 'Bullet'  # input("'Bullet', 'Blitz' ou 'Coup rapide'? : ")
+    while time_control not in time_control_list:
+        time_control = 'bullet'  # input("'bullet', 'blitz' ou 'coup rapide'? : ").lower()
     notes = 'RAS'  # input("Remarques du directeur : ")
 
     players = generates_players()

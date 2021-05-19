@@ -19,6 +19,7 @@ class Tournament:
         #     'notes': self.notes
         # }
 
+    @property
     def serialize_tournament(self):
         serialized_tournament = {
             'name': self.name,
@@ -89,7 +90,7 @@ class Tournament:
         return pairs_sort_by_score
 
     def display_tournament_infos(self):  # -> Vue
-        return self.serialize_tournament()
+        return self.serialize_tournament
 
     def save_tournament(self):
         pass
