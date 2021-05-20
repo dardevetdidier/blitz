@@ -13,9 +13,12 @@ tournament_db = TinyDB('tournaments.json', encoding='utf-8', ensure_ascii=False)
 query = Query()
 pairs_sort_rank = []
 tournament = Tournament(None, None, None, None, None, None)
+round_number = 1
 rnd = Round(None)
 app_is_on = True
 
+# TODO : verifier le systeme de pairs par score
+# TODO : mettre à jour le total score
 # TODO : implémenter continuer tournoi -> load
 while app_is_on:
     display_main_menu()
@@ -52,13 +55,16 @@ while app_is_on:
                 else:
                     if tournament.tournament_is_on:
                         # system creates a round
-                        if rnd.round_number == 1:
+                        if round_number == 1:
                             rnd = Round(pairs_sort_rank)
                         else:
                             rnd = Round(tournament.pairs_by_score())
-                        num_rounds = tournament_db.search(query['num_rounds'] > 0)[-1]
-                        start_round = rnd.starts_round(num_rounds)
-                        print(num_rounds)
+                        # num_rounds = tournament_db.get(query['num_rounds'] > 0)
+                        start_round = rnd.starts_round(round_number, tournament.num_rounds)
+                        # affiche la liste des joueurs triés par score total
+                        print(f"\nListe des joueurs triés par score :\n")
+                        pprint(tournament.pairs_by_score(), sort_dicts=False)
+                        # print(num_rounds)
                         print("\nLe round a bien été créé.")
                         continue
                     else:
@@ -71,9 +77,16 @@ while app_is_on:
                 else:
                     # entrer les résultats
                     results_list = []
-                    for i in range(len(pairs_sort_rank)):
-                        results = enter_results(pairs_sort_rank[i][0], pairs_sort_rank[i][-1])
-                        results_list.append(results)
+                    if round_number == 1:
+                        for i in range(len(pairs_sort_rank)):
+                            results = enter_results(pairs_sort_rank[i][0], pairs_sort_rank[i][-1])
+                            results_list.append(results)
+                    else:
+                        pairs_sort_score = tournament.pairs_by_score()
+                        print(pairs_sort_score)
+                        for i in range(len(pairs_sort_score)):
+                            results = enter_results(pairs_sort_score[i][0], pairs_sort_score[i][-1])
+                            results_list.append(results)
 
                     # Finishes the round
                     print(f"\nInfos du round:\n")
@@ -83,7 +96,11 @@ while app_is_on:
                     tournament.rounds.append(round_ended)
                     # update tournament db
                     tournament_db.update({'rounds': tournament.rounds})
+                    round_number += 1
 
+                    # affiche la liste des joueurs triés par score total
+                    print(f"\nListe des joueurs triés par score :\n")
+                    pprint(tournament.pairs_by_score(), sort_dicts=False)
             elif user_choice == 4:
                 pass
 
@@ -95,7 +112,6 @@ while app_is_on:
         pass
     elif user_choice == 5:
         pass
-
 
 
 # affiche la liste des resultats par pairs
@@ -111,8 +127,8 @@ while app_is_on:
 # pprint(tournament.display_tournament_infos(), sort_dicts=False)
 
 # affiche la liste des joueurs triés par score total
-# print(f"\nListe des joueurs triés par score :\n")
-# pprint(tournament.pairs_by_score(), sort_dicts=False)
+print(f"\nListe des joueurs triés par score :\n")
+pprint(tournament.pairs_by_score(), sort_dicts=False)
 
-# print(f"\npaires triées par classement:\n")
-# pprint(pairs_sort_rank, sort_dicts=False)
+print(f"\npaires triées par classement:\n")
+pprint(pairs_sort_rank, sort_dicts=False)

@@ -1,6 +1,7 @@
 from tinydb import TinyDB, Query
 from pprint import pprint
 
+
 class Tournament:
     def __init__(self, name, location, date, players, time_control, notes):
         self.name = name
@@ -12,16 +13,6 @@ class Tournament:
         self.time_control = time_control
         self.notes = notes
         self.tournament_is_on = False
-
-        # self.serialized_tournament = {
-        #     'name': self.name,
-        #     'location': self.location,
-        #     'date': self.date,
-        #     'players': self.players,
-        #     'rounds': self.rounds,
-        #     'time_control': self.time_control,
-        #     'notes': self.notes
-        # }
 
     @property
     def serialize_tournament(self):
@@ -51,28 +42,35 @@ class Tournament:
 
     @staticmethod
     def sort_new_list(scores_list, new_list):
-        scores_list = sorted(scores_list, key=lambda k: k['rank'])
+        """sort the list of players with equal total score by their ranking. fill the list of players sorted
+        by score and rank"""
+        scores_list = sorted(scores_list, key=lambda k: k['rank'])  # sort by rank the equal score list
         for player in scores_list:
-            new_list.append(player)
+            new_list.append(player)  # fill the list sorted by score and rank
         return new_list
 
     def pairs_by_score(self):
         """Sorts list of players by score and creates 4 pairs. If scores are equals, sort by rank.
          returns a list of 4 lists of 2 players sorted by score and rank"""
 
+        # creates a list of players sorted by their 'total score'
         score_sorted_list = sorted(self.players, key=lambda k: k['total_score'], reverse=True)
+        pprint(score_sorted_list)
+
         # Sort by rank if equal scores
-        equal_scores_list = []
-        score_rank_sort_list = []
+        equal_scores_list = []  # creates a list of players with equal scores
+        score_rank_sort_list = []  # creates a list of sort by score and by rank if scores are equal
         for i in range(0, 8, 2):
+            # if 'total score' player is equal with TS next player -> 2 players go to equal_score_list
             if score_sorted_list[i]['total_score'] == score_sorted_list[i+1]['total_score']:
                 equal_scores_list.append(score_sorted_list[i])
                 equal_scores_list.append(score_sorted_list[i+1])
+            # if total score player NOT equal to the next one
             else:
-                equal_scores_list.append(score_sorted_list[i])
-                self.sort_new_list(equal_scores_list, score_rank_sort_list)
+                equal_scores_list.append(score_sorted_list[i])  # first player go to equal_score_list
+                self.sort_new_list(equal_scores_list, score_rank_sort_list) # create list sorted by score and rank
                 equal_scores_list.clear()
-                equal_scores_list.append(score_sorted_list[i+1])
+                equal_scores_list.append(score_sorted_list[i+1])  # clear the list and append the next player
         score_sorted_list = self.sort_new_list(equal_scores_list, score_rank_sort_list)
 
         # create pairs
@@ -101,6 +99,4 @@ class Tournament:
         db.insert(self.serialize_tournament)
 
     def update_db(self, db):
-        pass
-
-
+        db.update({})
