@@ -24,14 +24,16 @@ def display_main_menu():
 """)
 
 
+
+
 def display_tournament_menu():
     print(tournament_menu_art)
     print("""
 1: Créer un tournoi
 2: Débuter un round
-3: Terminer un round
-4: Entrer un résultat
-5: Retour menu principal
+3: Entrer un résultat
+4: Retour menu principal
 """)
+
 
 

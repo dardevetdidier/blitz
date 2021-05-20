@@ -6,7 +6,7 @@ def launch_tournament():
     """User enters informations of tournament and instances players"""
     time_control_list = ["bullet", "blitz", "coup rapide"]
     time_control = ''
-    name = 'tournoi 1'  # input("Nom du tournoi : ")
+    name = 'tournoi 2'  # input("Nom du tournoi : ")
     location = 'ici'  # input("Lieu du tournoi :  ")
     date = '12/12/2021'  # input("Date du tournoi : ")
     while time_control not in time_control_list:
@@ -15,6 +15,8 @@ def launch_tournament():
 
     players = generates_players()
     tournament = Tournament(name, location, date, players, time_control, notes)
+    tournament.tournament_is_on = True
+
     # tournament.pairs_by_rank()
     # pprint.pprint(tournament.pairs_by_rank())
     # tournament.display_tournament_infos()

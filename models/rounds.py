@@ -1,4 +1,5 @@
 from time import strftime, localtime
+from views.menu import display_tournament_menu
 
 
 class Round:
@@ -9,13 +10,12 @@ class Round:
         self.end_time = None  # changes when round is over
         self.players_pairs = players_pairs
         self.scores = None
+        self.round_number = 1
         self.round_is_on = False
         self.round_is_over = True
-        self.round_number = 1
         self.round_list = []
 
     def starts_round(self, num_round):
-
         if not (self.round_number == num_round and self.round_is_on):
             self.round_is_on = True
             print(f"Création du round{self.round_number}\n")
@@ -28,7 +28,7 @@ class Round:
         return self.round_list
 
     def ends_round(self, scores):
-        if self.round_is_over:  # round_is_over is true when user chooses 'stop round' in round menu
+        if self.round_is_over:  # round_is_over is true when user chooses 'finish round' in round menu
             self.end_time = f"Fin : {strftime('%a %d %b %Y %H:%M:%S', localtime())}"
             self.round_list[2] = self.end_time
             self.round_list[-1] = scores

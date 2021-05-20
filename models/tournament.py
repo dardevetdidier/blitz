@@ -1,13 +1,17 @@
+from tinydb import TinyDB, Query
+from pprint import pprint
+
 class Tournament:
     def __init__(self, name, location, date, players, time_control, notes):
         self.name = name
         self.location = location
         self.date = date
         self.players = players
-        self.rounds = []
         self.num_rounds = 4
+        self.rounds = []
         self.time_control = time_control
         self.notes = notes
+        self.tournament_is_on = False
 
         # self.serialized_tournament = {
         #     'name': self.name,
@@ -26,6 +30,7 @@ class Tournament:
             'location': self.location,
             'date': self.date,
             'players': self.players,
+            'num_rounds': self.num_rounds,
             'rounds': self.rounds,
             'time_control': self.time_control,
             'notes': self.notes
@@ -90,7 +95,12 @@ class Tournament:
         return pairs_sort_by_score
 
     def display_tournament_infos(self):  # -> Vue
-        return self.serialize_tournament
+        return pprint(self.serialize_tournament, sort_dicts=False)
 
-    def save_tournament(self):
+    def insert_db(self, db):
+        db.insert(self.serialize_tournament)
+
+    def update_db(self, db):
         pass
+
+
