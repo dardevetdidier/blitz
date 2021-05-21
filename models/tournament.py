@@ -61,7 +61,7 @@ class Tournament:
         for i in range(len(score_sorted_list)):
             scores_list.append(score_sorted_list[i]['total_score'])
 
-        print(scores_list)
+        # print(scores_list)
 
         # Sort by rank if equal scores
         equal_scores_list = []  # creates an empty temporary list of players with equal scores
@@ -70,7 +70,7 @@ class Tournament:
         while len(score_rank_sort_list) < self.num_rounds * 2:
             counter = scores_list.count(scores_list[0])  # returns how many players with the first score of the list
             # print(score_sorted_list[0]['total_score'])
-            print(counter)
+            # print(counter)
 
             for i in range(counter):
                 equal_scores_list.append(score_sorted_list[0])  # add player with first score in the list
@@ -81,45 +81,41 @@ class Tournament:
 
             equal_scores_list.clear()  # clear the temporary list
 
-        pprint(score_rank_sort_list, sort_dicts=False)
+        # pprint(score_rank_sort_list, sort_dicts=False)
 
         return score_rank_sort_list
 
+    # for i in range(0, self.num_rounds*2, 2):
+    #     # if 'total score' player is equal with TS next player -> 2 players go to equal_score_list
+    #     if score_sorted_list[i]['total_score'] == score_sorted_list[i + 1]['total_score']:
+    #         score_rank_sort_list = sorted(score_rank_sort_list, key=lambda k: k['rank'])
+    #         equal_scores_list.append(score_sorted_list[i])
+    #         equal_scores_list.append(score_sorted_list[i + 1])
+    #         print(f"equal score list : {equal_scores_list}")
+    #         if not i == len(score_sorted_list) - 3:
+    #             if not score_sorted_list[i+1]['total_score'] == score_sorted_list[i+2]['total_score']:
+    #                 score_rank_sort_list = self.sort_new_list(equal_scores_list, score_rank_sort_list)
+    #                 equal_scores_list.clear()
+    #             else:
+    #
+    #
+    #         elif i == len(score_sorted_list) - 3:
+    #             if not score_sorted_list[i + 1] == score_sorted_list[i + 2]:
+    #                 score_rank_sort_list = self.sort_new_list(equal_scores_list, score_rank_sort_list)
+    #                 score_rank_sort_list.append(score_sorted_list[i + 2])
+    #     # if total score player NOT equal to the next one
+    #     else:
+    #         score_rank_sort_list.append(score_sorted_list[i])
+    #         score_rank_sort_list.append(score_sorted_list[i + 1])
+    #         # equal_scores_list.append(score_sorted_list[i])  # first player go to equal_score_list
+    #         # # create list sorted by score and rank
+    #         # score_rank_sort_list = self.sort_new_list(equal_scores_list, score_rank_sort_list)
+    #         # equal_scores_list.clear()
+    #         # equal_scores_list.append(score_sorted_list[i + 1])  # clear the list and append the next player
+    # self.sort_new_list(equal_scores_list, score_rank_sort_list)
+    # pprint(f"score sorted list : {score_rank_sort_list}")
 
-
-        # for i in range(0, self.num_rounds*2, 2):
-        #     # if 'total score' player is equal with TS next player -> 2 players go to equal_score_list
-        #     if score_sorted_list[i]['total_score'] == score_sorted_list[i + 1]['total_score']:
-        #         score_rank_sort_list = sorted(score_rank_sort_list, key=lambda k: k['rank'])
-        #         equal_scores_list.append(score_sorted_list[i])
-        #         equal_scores_list.append(score_sorted_list[i + 1])
-        #         print(f"equal score list : {equal_scores_list}")
-        #         if not i == len(score_sorted_list) - 3:
-        #             if not score_sorted_list[i+1]['total_score'] == score_sorted_list[i+2]['total_score']:
-        #                 score_rank_sort_list = self.sort_new_list(equal_scores_list, score_rank_sort_list)
-        #                 equal_scores_list.clear()
-        #             else:
-        #
-        #
-        #         elif i == len(score_sorted_list) - 3:
-        #             if not score_sorted_list[i + 1] == score_sorted_list[i + 2]:
-        #                 score_rank_sort_list = self.sort_new_list(equal_scores_list, score_rank_sort_list)
-        #                 score_rank_sort_list.append(score_sorted_list[i + 2])
-        #     # if total score player NOT equal to the next one
-        #     else:
-        #         score_rank_sort_list.append(score_sorted_list[i])
-        #         score_rank_sort_list.append(score_sorted_list[i + 1])
-        #         # equal_scores_list.append(score_sorted_list[i])  # first player go to equal_score_list
-        #         # # create list sorted by score and rank
-        #         # score_rank_sort_list = self.sort_new_list(equal_scores_list, score_rank_sort_list)
-        #         # equal_scores_list.clear()
-        #         # equal_scores_list.append(score_sorted_list[i + 1])  # clear the list and append the next player
-        # self.sort_new_list(equal_scores_list, score_rank_sort_list)
-        # pprint(f"score sorted list : {score_rank_sort_list}")
-
-
-
-        # return score_rank_sort_list
+    # return score_rank_sort_list
 
     def already_played(self, list_by_score):
         """ Returns true if a player has already play with the next one"""
@@ -157,6 +153,10 @@ class Tournament:
 
     def insert_db(self, db):
         db.insert(self.serialize_tournament)
+
+    @staticmethod
+    def load_db_tournament(db, query):
+        db.search(query.name == 'tournoi 2')
 
     # def update_db(self, db):
     #     db.update({})
