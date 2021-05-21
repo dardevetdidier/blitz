@@ -12,7 +12,7 @@ def generates_players():  # --> controllers
         first_name = str(player)  # input("Prénom : ")
         birth = "01/01/2000"  # input("Date de naissance : ")
         sex = "m"  # input("Sexe : ")
-        rank = randint(1, 50)  # int(input("Classement : "))
+        rank = randint(1, 200)  # int(input("Classement : "))
 
         player = Player(player_id, name, first_name, birth, sex, rank)
         players.append(player.serialize_player)

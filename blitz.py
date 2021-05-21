@@ -31,7 +31,7 @@ while app_is_on:
             user_choice = choose_item(4)
             if user_choice == 1:
                 if confirm_action() == 2:
-                    display_tournament_menu()
+                    continue
                 else:
                     if not tournament.tournament_is_on:
                         # create a tournament - user enters the information
@@ -51,20 +51,19 @@ while app_is_on:
 
             elif user_choice == 2:
                 if confirm_action() == 2:  # User doesn't confirm -> previous menu
-                    display_tournament_menu()
+                    continue
                 else:
                     if tournament.tournament_is_on:
                         # system creates a round
                         if round_number == 1:
                             rnd = Round(pairs_sort_rank)
                         else:
-                            rnd = Round(tournament.pairs_by_score())
-                        # num_rounds = tournament_db.get(query['num_rounds'] > 0)
+                            rnd = Round(tournament.pairs_by_score(tournament.sort_by_score()))
+                            # affiche la liste des joueurs triés par score total
+                            # print(f"\nListe des joueurs triés par score :\n")
+                            # pprint(tournament.pairs_by_score(tournament.sort_by_score()), sort_dicts=False)
                         start_round = rnd.starts_round(round_number, tournament.num_rounds)
-                        # affiche la liste des joueurs triés par score total
-                        print(f"\nListe des joueurs triés par score :\n")
-                        pprint(tournament.pairs_by_score(), sort_dicts=False)
-                        # print(num_rounds)
+
                         print("\nLe round a bien été créé.")
                         continue
                     else:
@@ -73,7 +72,7 @@ while app_is_on:
 
             elif user_choice == 3:
                 if confirm_action() == 2:
-                    display_tournament_menu()
+                    continue
                 else:
                     # entrer les résultats
                     results_list = []
@@ -82,8 +81,8 @@ while app_is_on:
                             results = enter_results(pairs_sort_rank[i][0], pairs_sort_rank[i][-1])
                             results_list.append(results)
                     else:
-                        pairs_sort_score = tournament.pairs_by_score()
-                        print(pairs_sort_score)
+                        pairs_sort_score = tournament.pairs_by_score(tournament.sort_by_score())
+                        print(f"paires triées par score : {pairs_sort_score}")
                         for i in range(len(pairs_sort_score)):
                             results = enter_results(pairs_sort_score[i][0], pairs_sort_score[i][-1])
                             results_list.append(results)
@@ -99,10 +98,10 @@ while app_is_on:
                     round_number += 1
 
                     # affiche la liste des joueurs triés par score total
-                    print(f"\nListe des joueurs triés par score :\n")
-                    pprint(tournament.pairs_by_score(), sort_dicts=False)
+                    # print(f"\nListe des joueurs triés par score :\n")
+                    # pprint(tournament.pairs_by_score(tournament.sort_by_score()), sort_dicts=False)
             elif user_choice == 4:
-                pass
+                break
 
     elif user_choice == 2:
         pass
@@ -127,7 +126,7 @@ while app_is_on:
 # pprint(tournament.display_tournament_infos(), sort_dicts=False)
 
 # affiche la liste des joueurs triés par score total
-print(f"\nListe des joueurs triés par score :\n")
+print(f"\nListe des paires triés par score :\n")
 pprint(tournament.pairs_by_score(), sort_dicts=False)
 
 print(f"\npaires triées par classement:\n")
