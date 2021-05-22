@@ -1,10 +1,14 @@
 from tinydb import TinyDB, Query
 from models.tournament import Tournament
+from models.rounds import Round
+from models.players import Player
 from controllers.launch_tournament import launch_tournament
 from controllers.enter_results import enter_results
 from controllers.confirm import confirm_action
 from controllers.press_to_clear import enter_to_clear
-from models.rounds import Round
+from controllers.generates_players import generates_players, enters_player_info
+
+
 from views.menu import display_main_menu, display_tournament_menu, display_player_menu, choose_item
 
 from pprint import pprint
@@ -15,8 +19,10 @@ tournament_db = TinyDB('tournaments.json', encoding='utf-8', ensure_ascii=False)
 players_db = TinyDB('players.json', encoding='utf-8', ensure_ascii=False)
 query = Query()
 pairs_sort_rank = []
+player = Player(None, None, None, None, None, None)
 tournament = Tournament(None, None, None, None, None, None)
 round_number = 1
+round_is_on = False
 rnd = Round(None)
 app_is_on = True
 
@@ -41,8 +47,11 @@ while app_is_on:
                     system('cls')
                     if not tournament.tournament_is_on:
                         # create a tournament - user enters the information
-                        tournament = launch_tournament()
+                        players = generates_players(len(players_db))
+                        tournament = launch_tournament(players)
                         tournament.insert_db(tournament_db)
+                        # player.add_player_to_db(players_db)
+
                         # tournament.display_tournament_infos()
 
                         # sys create pairs of players sorted by ranking
@@ -76,12 +85,17 @@ while app_is_on:
                             # print(f"\nListe des joueurs triés par score :\n")
                             # pprint(tournament.pairs_by_score(tournament.sort_by_score()), sort_dicts=False)
 
-                        start_round = rnd.starts_round(round_number, tournament.num_rounds)
-
-                        print(f"\n\tLe round {round_number} a bien été créé.")
-                        enter_to_clear()
-                        continue
-
+                        if not round_number > tournament.num_rounds and not round_is_on:
+                            start_round = rnd.starts_round(round_number)
+                            round_is_on = True
+                            enter_to_clear()
+                            continue
+                        else:
+                            system('cls')
+                            print("\n\tUn round est déjà en cours. Entrez les résultats\n\t     avant"
+                                  " la création d'un nouveau round.")
+                            enter_to_clear()
+                            continue
                     else:
                         print("\n\tImpossible de démarrer un round. Il n'y a pas de tournoi en cours.")
                         enter_to_clear()
@@ -93,7 +107,7 @@ while app_is_on:
                     continue
                 else:
                     system('cls')
-                    if rnd.round_is_on:
+                    if round_is_on:
                         # entrer les résultats
                         results_list = []
                         if round_number == 1:
@@ -110,6 +124,7 @@ while app_is_on:
                         # Finishes the round
                         # print(f"\nInfos du round:\n")
                         round_ended = rnd.ends_round(results_list)
+                        round_is_on = False
                         # pprint(round_ended, sort_dicts=False)
 
                         # envoie les infos du round dans l'attribut rounds de la classe tournament
@@ -117,7 +132,7 @@ while app_is_on:
 
                         # update tournament db
                         tournament_db.update({'rounds': tournament.rounds})
-                        round_number += 1
+
                         print("\n\tLes résultats sont bien enregistrés.")
                         print(f"\n\tLe round {round_number} est terminé.")
 
@@ -128,6 +143,7 @@ while app_is_on:
                         else:
                             print("\n\tVous pouvez créer un nouveau round dans le menu 'Tournoi'.")
                             enter_to_clear()
+                        round_number += 1
                     else:
                         print("\n\tImpossible de rentrer les résultats. Aucun round n'est en cours.")
                         enter_to_clear()
@@ -146,14 +162,16 @@ while app_is_on:
             user_choice = choose_item(3)
 
             if user_choice == 1:
-                pass
+                system('cls')
+                enters_player_info()
+
             if user_choice == 2:
                 pass
             if user_choice == 3:
                 break
 
 
-        pass
+
     elif user_choice == 3:
         pass
     elif user_choice == 4:

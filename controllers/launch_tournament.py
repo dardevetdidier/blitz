@@ -1,8 +1,6 @@
 from models.tournament import Tournament
-from controllers.generates_players import generates_players
 
-
-def launch_tournament():
+def launch_tournament(players):
     """User enters informations of tournament and instances players"""
     time_control_list = ["bullet", "blitz", "coup rapide"]
     time_control = ''
@@ -13,7 +11,7 @@ def launch_tournament():
         time_control = 'bullet'  # input("'bullet', 'blitz' ou 'coup rapide'? : ").lower()
     notes = 'RAS'  # input("Remarques du directeur : ")
 
-    players = generates_players()
+    # players = generates_players()
     tournament = Tournament(name, location, date, players, time_control, notes)
     tournament.tournament_is_on = True
 
