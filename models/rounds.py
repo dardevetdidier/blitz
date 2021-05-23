@@ -12,6 +12,7 @@ class Round:
         self.end_time = None  # changes when round is over
         self.players_pairs = players_pairs
         self.scores = None
+        # self.round_number = len(self.round_list) + 1
         # self.round_is_on = False
         # self.round_is_over = True
         self.round_list = []

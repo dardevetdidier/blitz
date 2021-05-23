@@ -3,13 +3,13 @@ from collections import Counter
 
 
 class Tournament:
-    def __init__(self, name, location, date, players, time_control, notes):
+    def __init__(self, name, location, date, players, rounds, time_control, notes):
         self.name = name
         self.location = location
         self.date = date
         self.players = players
         self.num_rounds = 4
-        self.rounds = []
+        self.rounds = rounds
         self.time_control = time_control
         self.notes = notes
         self.tournament_is_on = False
@@ -27,6 +27,19 @@ class Tournament:
             'notes': self.notes
         }
         return serialized_tournament
+
+    @staticmethod
+    def deserialize_tournament(serial_tournament):
+        name = serial_tournament['name']
+        location = serial_tournament['location']
+        date = serial_tournament['date']
+        players = serial_tournament['players']
+        rounds = serial_tournament['rounds']
+        time_control = serial_tournament['time_control']
+        notes = serial_tournament['notes']
+
+        tournament = Tournament(name, location, date, players, rounds, time_control, notes)
+        return tournament
 
     def pairs_by_rank(self):
         """Sorts list of players by rank and creates 4 pairs. returns a list of 4 lists of 2 players"""
@@ -140,12 +153,12 @@ class Tournament:
             if self.already_played(list_by_score):
                 if player <= len(list_by_score) - 3:
                     player2 = list_by_score[player + 2]
+                    list_by_score[player + 2] = list_by_score[player + 1]  # P+1 replace P+2
             else:
                 player2 = list_by_score[player + 1]
 
             pair_sort_by_score.extend([player1, player2])
             pairs_sort_by_score.append(pair_sort_by_score)
-
         return pairs_sort_by_score
 
     def display_tournament_infos(self):  # -> Vue

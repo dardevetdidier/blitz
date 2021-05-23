@@ -7,24 +7,25 @@ from controllers.enter_results import enter_results
 from controllers.confirm import confirm_action
 from controllers.press_to_clear import enter_to_clear
 from controllers.generates_players import generates_players, enters_player_info
-
-
 from views.menu import display_main_menu, display_tournament_menu, display_player_menu, choose_item
-
-from pprint import pprint
+# from pprint import pprint
 from os import system
+from prettytable import PrettyTable
 
 # ***************** --> MAIN *****************************
-tournament_db = TinyDB('tournaments.json', encoding='utf-8', ensure_ascii=False)
-players_db = TinyDB('players.json', encoding='utf-8', ensure_ascii=False)
+tournament_db = TinyDB('tournaments.json', encoding='utf-8', ensure_ascii=False, indent=4)
+players_db = TinyDB('players.json', encoding='utf-8', ensure_ascii=False, indent=4)
 query = Query()
 pairs_sort_rank = []
 player = Player(None, None, None, None, None, None)
-tournament = Tournament(None, None, None, None, None, None)
-round_number = 1
+tournament = Tournament(None, None, None, None, None, None, None)
+
 round_is_on = False
 rnd = Round(None)
+round_number = len(rnd.round_list) + 1
 app_is_on = True
+p_table = PrettyTable()
+p_table.align = "c"
 
 # TODO : implémenter continuer tournoi -> load
 while app_is_on:
@@ -32,12 +33,16 @@ while app_is_on:
     display_main_menu()
     user_choice = choose_item(5)
 
+    # **** TOURNAMENT MENU *****************************************************************************
+
     if user_choice == 1:
         system('cls')
 
         while True:
             display_tournament_menu()
             user_choice = choose_item(5)
+
+            # **** NEW TOURNAMENT ****************************************************************
 
             if user_choice == 1:
                 if confirm_action() == 2:
@@ -65,9 +70,40 @@ while app_is_on:
                         enter_to_clear()
                         continue
 
+            # TODO : load tournament
+            # **** LOAD TOURNAMENT ****************************************************************
+
             elif user_choice == 2:
-                print("\n\tChoisissez un tournoi à charger:")
-                pprint(tournament_db.search(query.name.exists()), sort_dicts=False)
+                system('cls')
+
+                serialized_tournaments = tournament_db.all()
+                # pprint(serialized_tournaments, sort_dicts=False)
+                p_table.field_names = ["n°", "nom", "date", "lieu"]
+
+                for i in range(len(serialized_tournaments)):
+                    p_table.add_row([i + 1, serialized_tournaments[i]['name'], serialized_tournaments[i]['date'],
+                                     serialized_tournaments[i]['location']])
+
+                print("\n\tTournois sauvegardés")
+                print(f"\n{p_table}")
+                t_to_load = 0
+                while True:
+                    try:
+                        t_to_load = int(input("Choisissez le n° du tournoi à charger: "))
+                        if t_to_load in range(1, len(serialized_tournaments)+1):
+                            break
+                    except ValueError:
+                        continue
+
+                tournament = tournament.deserialize_tournament(serialized_tournaments[t_to_load-1])
+                tournament.tournament_is_on = True
+                print(tournament.rounds)
+                round_number = len(tournament.rounds) + 1
+
+                enter_to_clear()
+                continue
+
+            # **** NEW ROUND ****************************************************************
 
             elif user_choice == 3:
                 if confirm_action() == 2:  # User doesn't confirm -> previous menu
@@ -101,6 +137,8 @@ while app_is_on:
                         enter_to_clear()
                         continue
 
+            # **** ENTER RESULTS ****************************************************************
+
             elif user_choice == 4:
                 if confirm_action() == 2:
                     system('cls')
@@ -133,7 +171,7 @@ while app_is_on:
                         # update tournament db
                         tournament_db.update({'rounds': tournament.rounds})
 
-                        print("\n\tLes résultats sont bien enregistrés.")
+                        print("\n\tLes résultats du round sont bien enregistrés.")
                         print(f"\n\tLe round {round_number} est terminé.")
 
                         if round_number == tournament.num_rounds:
@@ -152,9 +190,13 @@ while app_is_on:
                     # affiche la liste des joueurs triés par score total
                     # print(f"\nListe des joueurs triés par score :\n")
                     # pprint(tournament.pairs_by_score(tournament.sort_by_score()), sort_dicts=False)
+
+            # **** RETURN MAIN MENU ****************************************************************
+
             elif user_choice == 5:
                 break
 
+    # **** PLAYER MENU *****************************************************************************
     elif user_choice == 2:
         system('cls')
         while True:
@@ -170,14 +212,12 @@ while app_is_on:
             if user_choice == 3:
                 break
 
-
-
     elif user_choice == 3:
         pass
     elif user_choice == 4:
         pass
     elif user_choice == 5:
-        pass
+        exit()
 
 
 # affiche la liste des resultats par pairs
