@@ -3,7 +3,7 @@ from os import system
 from tinydb import TinyDB, Query
 from tinydb.operations import set
 from prettytable import PrettyTable
-from views.art import enter_scores, tournament_menu_art, main_menu_art, logo
+from views.art import enter_scores, tournament_menu_art, main_menu_art, logo, ranking_menu_art
 from models.tournament import Tournament
 from models.rounds import Round
 from models.players import Player
@@ -13,7 +13,7 @@ from controllers.confirm import confirm_action
 from controllers.press_to_clear import enter_to_clear
 from controllers.generates_players import generates_players, enters_player_info
 from views.menu import display_main_menu, display_tournament_menu, display_tournament_running, display_player_menu,\
-    choose_item
+    display_ranking_menu, choose_item
 from views.report import t_to_load
 
 
@@ -257,6 +257,7 @@ def main():
                     break
 
         # **** PLAYER MENU *****************************************************************************
+
         elif user_choice == 2:
             system('cls')
             while True:
@@ -267,15 +268,35 @@ def main():
                     system('cls')
                     enters_player_info(players_db)
 
-                if user_choice == 2:
+                elif user_choice == 2:
                     pass
-                if user_choice == 3:
+                elif user_choice == 3:
                     break
 
+        # **** RANKING MENU *****************************************************************************
+
         elif user_choice == 3:
-            pass
+            system('cls')
+            print(ranking_menu_art)
+            display_ranking_menu()
+            user_choice = choose_item(3)
+
+            if user_choice == 1:
+                pass
+            elif user_choice == 2:
+                pass
+            elif user_choice == 3:
+                pass
+
+
+
+        # **** REPORT MENU *****************************************************************************
+
         elif user_choice == 4:
             pass
+
+        # **** EXIT APP *****************************************************************************
+
         elif user_choice == 5:
             system('cls')
             exit()

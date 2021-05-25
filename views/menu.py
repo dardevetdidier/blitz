@@ -1,4 +1,4 @@
-from .art import logo, main_menu_art, tournament_menu_art, player_menu_art
+from .art import player_menu_art
 
 
 def choose_item(items):
@@ -38,7 +38,15 @@ def display_player_menu():
     print(player_menu_art)
     print("""
 \t\t\t|  1: Ajouter un joueur à la base de données
-\t\t\t|  2: Voir la liste des joueurs
+\t\t\t|  2: Afficher la liste des joueurs
+\t\t\t|  3: Retour menu principal
+""")
+
+
+def display_ranking_menu():
+    print("""
+\t\t\t|  1: Modifier le classement d'un joueur
+\t\t\t|  2: Afficher le classement des joueurs
 \t\t\t|  3: Retour menu principal
 """)
 
