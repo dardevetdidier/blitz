@@ -3,7 +3,8 @@ from os import system
 from tinydb import TinyDB, Query
 from tinydb.operations import set
 from prettytable import PrettyTable
-from views.art import enter_scores, tournament_menu_art, main_menu_art, logo, ranking_menu_art
+from views.art import enter_scores, tournament_menu_art, main_menu_art, logo, ranking_menu_art, report_menu_art,\
+    player_reports_art, tournaments_reports_art
 from models.tournament import Tournament
 from models.rounds import Round
 from models.players import Player
@@ -13,8 +14,8 @@ from controllers.confirm import confirm_action
 from controllers.press_to_clear import enter_to_clear
 from controllers.generates_players import generates_players, enters_player_info
 from views.menu import display_main_menu, display_tournament_menu, display_tournament_running, display_player_menu,\
-    display_ranking_menu, choose_item
-from views.report import t_to_load
+    display_ranking_menu, display_report_menu, display_players_report, display_tournaments_report, choose_item
+from views.reports import t_to_load
 
 
 # ***************** --> MAIN *****************************
@@ -83,7 +84,6 @@ def main():
                             enter_to_clear()
                             continue
 
-                # TODO : load tournament
                 # **** LOAD TOURNAMENT ****************************************************************
 
                 elif user_choice == 2:
@@ -288,12 +288,35 @@ def main():
             elif user_choice == 3:
                 pass
 
-
-
         # **** REPORT MENU *****************************************************************************
 
         elif user_choice == 4:
-            pass
+            system('cls')
+            while True:
+                print(report_menu_art)
+                display_report_menu()
+                user_choice = choose_item(3)
+
+                if user_choice == 1:
+                    system('cls')
+                    print(player_reports_art)
+                    display_players_report()
+                    user_choice = choose_item(3)
+
+                    if user_choice == 1:
+                        pass
+                    elif user_choice == 2:
+                        pass
+                    elif user_choice == 3:
+                        system('cls')
+                        continue
+
+                elif user_choice == 2:
+                    system('cls')
+                    print(tournaments_reports_art)
+                    display_tournaments_report()
+                elif user_choice == 3:
+                    break
 
         # **** EXIT APP *****************************************************************************
 

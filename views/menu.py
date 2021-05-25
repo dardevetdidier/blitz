@@ -30,7 +30,7 @@ def display_tournament_menu():
 \t\t\t|  3: Débuter un round
 \t\t\t|  4: Entrer les résultats et terminer le round
 \t\t\t|  5: Interrompre le tournoi en cours
-\t\t\t|  6: Retour menu principal
+\t\t\t|  6: Retour Menu Principal
 """)
 
 
@@ -39,7 +39,7 @@ def display_player_menu():
     print("""
 \t\t\t|  1: Ajouter un joueur à la base de données
 \t\t\t|  2: Afficher la liste des joueurs
-\t\t\t|  3: Retour menu principal
+\t\t\t|  3: Retour Menu Principal
 """)
 
 
@@ -47,9 +47,35 @@ def display_ranking_menu():
     print("""
 \t\t\t|  1: Modifier le classement d'un joueur
 \t\t\t|  2: Afficher le classement des joueurs
-\t\t\t|  3: Retour menu principal
+\t\t\t|  3: Retour Menu Principal
 """)
 
+
+def display_report_menu():
+    print("""
+\t\t\t|  1: Rapports Joueurs
+\t\t\t|  2: Rapports Tournois
+\t\t\t|  3: Retour Menu Principal
+""")
+
+
+def display_players_report():
+    print("""
+\t\t\t|  1: Afficher les joueurs enregistrés
+\t\t\t|  2: Afficher les joueurs d'un tournoi
+\t\t\t|  3: Retour Menu Rapport
+""")
+
+
+
+
+def display_tournaments_report():
+    print("""
+\t\t\t|  1: Afficher tous les tournois
+\t\t\t|  2: Afficher les tours d'un tournoi
+\t\t\t|  3: Afficher les matches d'un tournoi
+\t\t\t|  4: Retour Menu Rapport
+""")
 
 def display_tournament_running(t_is_on, tournoi):
     if t_is_on:
