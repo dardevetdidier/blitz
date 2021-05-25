@@ -28,6 +28,7 @@ class Tournament:
         }
         return serialized_tournament
 
+
     @staticmethod
     def deserialize_tournament(serial_tournament):
         name = serial_tournament['name']
@@ -167,9 +168,11 @@ class Tournament:
     def insert_db(self, db):
         db.insert(self.serialize_tournament)
 
-    @staticmethod
-    def load_db_tournament(db, query):
-        db.search(query.name == 'tournoi 2')
+
+
+    # @staticmethod
+    # def load_db_tournament(db, query):
+    #     db.search(query.name == 'tournoi 2')
 
     # def update_db(self, db):
     #     db.update({})
