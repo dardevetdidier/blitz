@@ -21,7 +21,7 @@
                     "birth": "01/01/2000",
                     "sex": "m",
                     "rank": 178,
-                    "total_score": 1.5
+                    "total_score": 2.5
                 },
                 {
                     "player_id": 3,
@@ -30,7 +30,7 @@
                     "birth": "01/01/2000",
                     "sex": "m",
                     "rank": 168,
-                    "total_score": 0.5
+                    "total_score": 1.5
                 },
                 {
                     "player_id": 4,
@@ -48,7 +48,7 @@
                     "birth": "01/01/2000",
                     "sex": "m",
                     "rank": 58,
-                    "total_score": 3.0
+                    "total_score": 4.0
                 },
                 {
                     "player_id": 6,
@@ -57,7 +57,7 @@
                     "birth": "01/01/2000",
                     "sex": "m",
                     "rank": 127,
-                    "total_score": 2.0
+                    "total_score": 3.0
                 },
                 {
                     "player_id": 7,
@@ -466,6 +466,135 @@
                             ]
                         ]
                     ]
+                ],
+                [
+                    "round_4",
+                    "Début : Tue 25 May 2021 19:13:02",
+                    "Fin : Tue 25 May 2021 19:13:34",
+                    [
+                        [
+                            {
+                                "player_id": 5,
+                                "name": "joueur ",
+                                "first_name": "5",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 58,
+                                "total_score": 4.0
+                            },
+                            {
+                                "player_id": 1,
+                                "name": "joueur ",
+                                "first_name": "1",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 78,
+                                "total_score": 2.0
+                            }
+                        ],
+                        [
+                            {
+                                "player_id": 6,
+                                "name": "joueur ",
+                                "first_name": "6",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 127,
+                                "total_score": 3.0
+                            },
+                            {
+                                "player_id": 4,
+                                "name": "joueur ",
+                                "first_name": "4",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 154,
+                                "total_score": 1.5
+                            }
+                        ],
+                        [
+                            {
+                                "player_id": 2,
+                                "name": "joueur ",
+                                "first_name": "2",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 178,
+                                "total_score": 2.5
+                            },
+                            {
+                                "player_id": 7,
+                                "name": "joueur ",
+                                "first_name": "7",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 132,
+                                "total_score": 1.0
+                            }
+                        ],
+                        [
+                            {
+                                "player_id": 3,
+                                "name": "joueur ",
+                                "first_name": "3",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 168,
+                                "total_score": 1.5
+                            },
+                            {
+                                "player_id": 8,
+                                "name": "joueur ",
+                                "first_name": "8",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 191,
+                                "total_score": 0.5
+                            }
+                        ]
+                    ],
+                    [
+                        [
+                            [
+                                "player 5",
+                                1.0
+                            ],
+                            [
+                                "player 1",
+                                0.0
+                            ]
+                        ],
+                        [
+                            [
+                                "player 6",
+                                1.0
+                            ],
+                            [
+                                "player 4",
+                                0.0
+                            ]
+                        ],
+                        [
+                            [
+                                "player 2",
+                                1.0
+                            ],
+                            [
+                                "player 7",
+                                0.0
+                            ]
+                        ],
+                        [
+                            [
+                                "player 3",
+                                1.0
+                            ],
+                            [
+                                "player 8",
+                                0.0
+                            ]
+                        ]
+                    ]
                 ]
             ],
             "time_control": "bullet",
@@ -501,7 +630,7 @@
                     "birth": "01/01/2000",
                     "sex": "m",
                     "rank": 43,
-                    "total_score": 1.0
+                    "total_score": 3.0
                 },
                 {
                     "player_id": 12,
@@ -510,7 +639,7 @@
                     "birth": "01/01/2000",
                     "sex": "m",
                     "rank": 173,
-                    "total_score": 1.0
+                    "total_score": 2.0
                 },
                 {
                     "player_id": 13,
@@ -528,7 +657,7 @@
                     "birth": "01/01/2000",
                     "sex": "m",
                     "rank": 1,
-                    "total_score": 2.0
+                    "total_score": 4.0
                 },
                 {
                     "player_id": 15,
@@ -537,7 +666,7 @@
                     "birth": "01/01/2000",
                     "sex": "m",
                     "rank": 9,
-                    "total_score": 1.0
+                    "total_score": 2.0
                 },
                 {
                     "player_id": 16,
@@ -546,7 +675,7 @@
                     "birth": "01/01/2000",
                     "sex": "m",
                     "rank": 189,
-                    "total_score": 0.0
+                    "total_score": 2.0
                 }
             ],
             "num_rounds": 4,
@@ -804,6 +933,264 @@
                             ],
                             [
                                 "player 16",
+                                0.0
+                            ]
+                        ]
+                    ]
+                ],
+                [
+                    "round_3",
+                    "Début : Tue 25 May 2021 19:24:19",
+                    "Fin : Tue 25 May 2021 19:25:19",
+                    [
+                        [
+                            {
+                                "player_id": 14,
+                                "name": "joueur ",
+                                "first_name": "14",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 1,
+                                "total_score": 3.0
+                            },
+                            {
+                                "player_id": 10,
+                                "name": "joueur ",
+                                "first_name": "10",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 12,
+                                "total_score": 2.0
+                            }
+                        ],
+                        [
+                            {
+                                "player_id": 15,
+                                "name": "joueur ",
+                                "first_name": "15",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 9,
+                                "total_score": 1.0
+                            },
+                            {
+                                "player_id": 11,
+                                "name": "joueur ",
+                                "first_name": "11",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 43,
+                                "total_score": 2.0
+                            }
+                        ],
+                        [
+                            {
+                                "player_id": 13,
+                                "name": "joueur ",
+                                "first_name": "13",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 46,
+                                "total_score": 1.0
+                            },
+                            {
+                                "player_id": 12,
+                                "name": "joueur ",
+                                "first_name": "12",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 173,
+                                "total_score": 2.0
+                            }
+                        ],
+                        [
+                            {
+                                "player_id": 9,
+                                "name": "joueur ",
+                                "first_name": "9",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 171,
+                                "total_score": 0.0
+                            },
+                            {
+                                "player_id": 16,
+                                "name": "joueur ",
+                                "first_name": "16",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 189,
+                                "total_score": 1.0
+                            }
+                        ]
+                    ],
+                    [
+                        [
+                            [
+                                "player 14",
+                                1.0
+                            ],
+                            [
+                                "player 10",
+                                0.0
+                            ]
+                        ],
+                        [
+                            [
+                                "player 15",
+                                0.0
+                            ],
+                            [
+                                "player 11",
+                                1.0
+                            ]
+                        ],
+                        [
+                            [
+                                "player 13",
+                                0.0
+                            ],
+                            [
+                                "player 12",
+                                1.0
+                            ]
+                        ],
+                        [
+                            [
+                                "player 9",
+                                0.0
+                            ],
+                            [
+                                "player 16",
+                                1.0
+                            ]
+                        ]
+                    ]
+                ],
+                [
+                    "round_4",
+                    "Début : Wed 26 May 2021 16:00:39",
+                    "Fin : Wed 26 May 2021 16:00:56",
+                    [
+                        [
+                            {
+                                "player_id": 14,
+                                "name": "joueur ",
+                                "first_name": "14",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 1,
+                                "total_score": 4.0
+                            },
+                            {
+                                "player_id": 10,
+                                "name": "joueur ",
+                                "first_name": "10",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 12,
+                                "total_score": 2.0
+                            }
+                        ],
+                        [
+                            {
+                                "player_id": 11,
+                                "name": "joueur ",
+                                "first_name": "11",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 43,
+                                "total_score": 3.0
+                            },
+                            {
+                                "player_id": 12,
+                                "name": "joueur ",
+                                "first_name": "12",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 173,
+                                "total_score": 2.0
+                            }
+                        ],
+                        [
+                            {
+                                "player_id": 15,
+                                "name": "joueur ",
+                                "first_name": "15",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 9,
+                                "total_score": 2.0
+                            },
+                            {
+                                "player_id": 13,
+                                "name": "joueur ",
+                                "first_name": "13",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 46,
+                                "total_score": 1.0
+                            }
+                        ],
+                        [
+                            {
+                                "player_id": 16,
+                                "name": "joueur ",
+                                "first_name": "16",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 189,
+                                "total_score": 2.0
+                            },
+                            {
+                                "player_id": 9,
+                                "name": "joueur ",
+                                "first_name": "9",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 171,
+                                "total_score": 0.0
+                            }
+                        ]
+                    ],
+                    [
+                        [
+                            [
+                                "player 14",
+                                1.0
+                            ],
+                            [
+                                "player 10",
+                                0.0
+                            ]
+                        ],
+                        [
+                            [
+                                "player 11",
+                                1.0
+                            ],
+                            [
+                                "player 12",
+                                0.0
+                            ]
+                        ],
+                        [
+                            [
+                                "player 15",
+                                1.0
+                            ],
+                            [
+                                "player 13",
+                                0.0
+                            ]
+                        ],
+                        [
+                            [
+                                "player 16",
+                                1.0
+                            ],
+                            [
+                                "player 9",
                                 0.0
                             ]
                         ]

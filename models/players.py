@@ -1,4 +1,5 @@
-import json
+from tinydb.operations import set
+from tinydb import TinyDB
 
 
 class Player:
@@ -38,18 +39,28 @@ class Player:
         player = Player(player_id, name, first_name, birth, sex, rank, total_score)
         return player
 
-    def add_player_to_db(self, db):
-        db.insert(self.serialize_player)
+    @staticmethod
+    def add_player_to_db(db, query, players):
+        for player in range(len(players)):
+            db.update(set('total_score', players[player]['total_score']),
+                      query.player_id == players[player]['player_id'])
 
     def update_player_score(self, db):
         db.update({'total_score': self.serialize_player['total_score']})
 
-    def save_player(self):
-        """load json file, add player (dict) into file return the list of all players"""
-        with open("players.json", "r", encoding="utf-8") as f:
-            players = json.load(f)
+    @staticmethod
+    def serialize_all_players(db, players):
+        serialized_players = []
+        for i in range(len(db)):
+            serialized_players.append(players)
 
-        players.append(self.serialize_player)
 
-        with open('players.json', "w", encoding="utf-8") as f:
-            json.dump(players, f, indent=4, ensure_ascii=False)
+    # def save_player(self):
+    #     """load json file, add player (dict) into file return the list of all players"""
+    #     with open("players.json", "r", encoding="utf-8") as f:
+    #         players = json.load(f)
+    #
+    #     players.append(self.serialize_player)
+    #
+    #     with open('players.json', "w", encoding="utf-8") as f:
+    #         json.dump(players, f, indent=4, ensure_ascii=False)

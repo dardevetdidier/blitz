@@ -4,7 +4,7 @@ from tinydb import TinyDB, Query
 from tinydb.operations import set
 from prettytable import PrettyTable
 from views.art import enter_scores, tournament_menu_art, main_menu_art, logo, ranking_menu_art, report_menu_art,\
-    player_reports_art, tournaments_reports_art
+    player_reports_art, tournaments_reports_art, display_players_art
 from models.tournament import Tournament
 from models.rounds import Round
 from models.players import Player
@@ -14,8 +14,9 @@ from controllers.confirm import confirm_action
 from controllers.press_to_clear import enter_to_clear
 from controllers.generates_players import generates_players, enters_player_info
 from views.menu import display_main_menu, display_tournament_menu, display_tournament_running, display_player_menu,\
-    display_ranking_menu, display_report_menu, display_players_report, display_tournaments_report, choose_item
-from views.reports import t_to_load
+    display_ranking_menu, display_report_menu, display_players_report, display_tournaments_report,\
+    display_alpha_or_rank, choose_item
+from views.reports import t_to_load, players_reports
 
 
 # ***************** --> MAIN *****************************
@@ -28,12 +29,18 @@ def main():
     player = Player(None, None, None, None, None, None, None)
     tournament = Tournament(None, None, None, None, None, None, None)
 
+    serialized_tournaments = tournament_db.all()
+    serialized_players = players_db.all()
     round_is_on = False
     rnd = Round(None)
     round_number = len(rnd.round_list) + 1
     app_is_on = True
-    p_table = PrettyTable()
-    p_table.align = "c"
+
+    p_table_tournament = PrettyTable()
+    p_table_tournament.align = "c"
+    p_table_players = PrettyTable()
+    p_table_players.align = "c"
+
 
     # TODO : implémenter continuer tournoi -> load
     while app_is_on:
@@ -89,11 +96,11 @@ def main():
                 elif user_choice == 2:
                     system('cls')
 
-                    serialized_tournaments = tournament_db.all()
+
                     # pprint(serialized_tournaments, sort_dicts=False)
 
                     # display tournaments with prettytable
-                    p_table.field_names = ["n°", "nom", "date", "lieu", "rounds joués"]
+                    # p_table.field_names = ["n°", "nom", "date", "lieu", "rounds joués"]
 
                     # for i in range(len(serialized_tournaments)):
                     #     p_table.add_row([i + 1,
@@ -113,8 +120,8 @@ def main():
                     #             break
                     #     except ValueError:
                     #         continue
-
-                    tournament_to_load = t_to_load(p_table, serialized_tournaments)
+                    p_table_tournament.field_names = ["n°", "nom", "date", "lieu", "rounds joués"]
+                    tournament_to_load = t_to_load(p_table_tournament, serialized_tournaments)
 
                     # create new tournament instance using tournament db
                     tournament = Tournament.deserialize_tournament(serialized_tournaments[tournament_to_load - 1])
@@ -122,8 +129,8 @@ def main():
                     if not round_number > tournament.num_rounds:
                         tournament.tournament_is_on = True
 
-                    p_table.clear()
                     enter_to_clear()
+                    p_table_tournament.clear()
                     continue
 
                 # **** NEW ROUND ****************************************************************
@@ -145,7 +152,7 @@ def main():
                                 # pprint(tournament.pairs_by_score(tournament.sort_by_score()), sort_dicts=False)
 
                             if not (round_number > tournament.num_rounds and not round_is_on):
-                                start_round = rnd.starts_round(round_number, tournament.name)
+                                rnd.starts_round(round_number, tournament.name)
                                 round_is_on = True
                                 enter_to_clear()
                                 continue
@@ -194,21 +201,31 @@ def main():
 
                             # *********************  UPDATE TOURNAMENT DB  *********************************
 
-                            tournament_db.update({'rounds': tournament.rounds}, query.name == tournament.
-                                                 serialize_tournament['name'])
-                            tournament_db.update({'players': tournament.players}, query.name == tournament.
-                                                 serialize_tournament['name'])
+                            tournament.update_tournament_db(tournament_db,
+                                                            query,
+                                                            tournament.rounds,
+                                                            tournament.players,
+                                                            tournament.serialize_tournament)
 
-                            # for player in range(len(tournament.players)):
-                            #     players_db.update({'total_score': tournament.serialize_tournament['players'][player]
-                            #     ['total_score']})
+                            # tournament_db.update({'rounds': tournament.rounds}, query.name == tournament.
+                            #                      serialize_tournament['name'])
+                            # tournament_db.update({'players': tournament.players}, query.name == tournament.
+                            #                      serialize_tournament['name'])
 
                             # **********************  UPDATE PLAYERS_DB ************************************
 
-                            for player in range(len(tournament.players)):
-                                players_db.update(set('total_score', tournament.players[player]['total_score']),
-                                                  query.player_id == tournament.players[player]['player_id'])
+                            Player.add_player_to_db(tournament_db, query, tournament.players)
 
+                            # WORKS FINE
+                            # for player in range(len(tournament.players)):
+                            #     players_db.update(set('total_score', tournament.players[player]['total_score']),
+                            #                       query.player_id == tournament.players[player]['player_id'])
+
+                            # NOT THIS FOLLOWINGS
+                            # for player in range(len(tournament.players)):
+                            #     players_db.update({'total_score': tournament.serialize_tournament['players'][player]
+                            #     ['total_score']})
+                            #
                             # for player in range(len(tournament.players)):
                             #     players_db.remove(query.player_id == tournament.players[player]['player_id'])
                             # players_db.insert_multiple(tournament.serialize_tournament['players'])
@@ -237,7 +254,7 @@ def main():
                 # **** QUIT TOURNAMENT ****************************************************************
 
                 elif user_choice == 5:
-                    print("\n\tInterrrompre le tournoi et retourner au menu principal ?")
+                    print("\n\tInterrompre le tournoi et retourner au menu principal ?")
                     if confirm_action() == 2:
                         system('cls')
                     else:
@@ -269,7 +286,18 @@ def main():
                     enters_player_info(players_db)
 
                 elif user_choice == 2:
-                    pass
+                    display_alpha_or_rank()
+                    user_choice_2 = choose_item(3)
+                    if user_choice_2 == 1 or user_choice_2 == 2:
+                        system('cls')
+                        print(display_players_art)
+                        print("\n\t   Liste des joueurs enregistrés\n")
+                        p_table_players.field_names = ["Nom", "Prénom", "Date de naissance", "Classement"]
+                        players_reports(user_choice_2, p_table_players, serialized_players)
+                        enter_to_clear()
+                        p_table_players.clear()
+                    else:
+                        break
                 elif user_choice == 3:
                     break
 
@@ -297,32 +325,93 @@ def main():
                 display_report_menu()
                 user_choice = choose_item(3)
 
+                # *******************  DISPLAY PLAYERS MENU *************************************************
+
                 if user_choice == 1:
                     system('cls')
                     print(player_reports_art)
                     display_players_report()
+
                     user_choice = choose_item(3)
+
+                    # ********************  ALL SAVED PLAYERS MENU  ************************************
+
+                    if user_choice == 1:
+                        system('cls')
+                        print(display_players_art)
+                        display_alpha_or_rank()
+                        user_choice_2 = choose_item(3)
+
+                    # user choose display alpha or rank sort
+
+                        if user_choice_2 == 1 or user_choice_2 == 2:
+                            p_table_players.field_names = ["Nom", "Prénom", "Date de naissance", "Classement"]
+                            players_reports(user_choice_2, p_table_players, serialized_players)
+                            enter_to_clear()
+                            p_table_players.clear()
+
+                        elif user_choice_2 == 3:
+                            break
+
+                    # *************************  DISPLAY THE PLAYERS OF A TOURNAMENT MENU  ****************************
+
+                    elif user_choice == 2:
+                        system('cls')
+                        print(display_players_art)
+                        p_table_tournament.field_names = ["n°", "nom", "date", "lieu", "rounds joués"]
+                        tournament_to_load = t_to_load(p_table_tournament, serialized_tournaments)
+
+                        players_to_display = serialized_tournaments[tournament_to_load - 1]['players']
+
+                        display_alpha_or_rank()
+                        user_choice_2 = choose_item(3)
+
+                        if user_choice_2 == 1 or user_choice_2 == 2:
+                            p_table_players.field_names = ["Nom", "Prénom", "Date de naissance", "Classement"]
+                            players_reports(user_choice_2, p_table_players, players_to_display)
+                            enter_to_clear()
+                            p_table_players.clear()
+                            p_table_tournament.clear()
+
+                        elif user_choice_2 == 3:
+                            break
+
+                    # ************************  back to previous menu   ***********************************
+
+                    elif user_choice == 3:
+                        system('cls')
+                        continue
+
+                # ******************************  DISPLAY TOURNAMENTS MENU  ******************************
+                elif user_choice == 2:
+                    system('cls')
+                    print(tournaments_reports_art)
+                    display_tournaments_report()
+                    enter_to_clear()
+
+                    user_choice = choose_item(4)
 
                     if user_choice == 1:
                         pass
                     elif user_choice == 2:
                         pass
                     elif user_choice == 3:
-                        system('cls')
-                        continue
+                        pass
+                    elif user_choice == 4:
+                        break
 
-                elif user_choice == 2:
-                    system('cls')
-                    print(tournaments_reports_art)
-                    display_tournaments_report()
                 elif user_choice == 3:
                     break
 
         # **** EXIT APP *****************************************************************************
 
         elif user_choice == 5:
-            system('cls')
-            exit()
+            print("\n\t\tQuitter le programme ?")
+            if confirm_action() == 2:
+                continue
+            else:
+                system('cls')
+                exit()
 
 
 main()

@@ -67,6 +67,13 @@ def display_players_report():
 """)
 
 
+def display_alpha_or_rank():
+    print("""
+\t\t\t|  Afficher les joueurs:
+\t\t\t|     1: Par ordre alphabétique
+\t\t\t|     2: Par classement
+\t\t\t|     3: Retour
+""")
 
 
 def display_tournaments_report():
@@ -79,6 +86,6 @@ def display_tournaments_report():
 
 def display_tournament_running(t_is_on, tournoi):
     if t_is_on:
-        print(f"\n\t     *** Le tournoi '{tournoi}' est en cours d'exécution ***\n")
+        print(f"\n\t     *** Le tournoi '{tournoi}' est en cours d'exécution ***")
     else:
-        print("\n\t     *** Il n'y a pas de tournoi en cours d'exécution. ***\n")
+        print("\n\t     *** Il n'y a pas de tournoi en cours d'exécution. ***")
