@@ -1,6 +1,6 @@
-from os import system
+import os
 
 
 def enter_to_clear():
     input("\n    --> Appuyez sur entrée pour continuer: ")
-    system('cls')
+    os.system('cls')

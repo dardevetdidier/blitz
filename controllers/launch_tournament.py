@@ -13,13 +13,6 @@ def launch_tournament(players):
         time_control = 'bullet'  # input("'bullet', 'blitz' ou 'coup rapide'? : ").lower()
     notes = 'RAS'  # input("Remarques du directeur : ")
 
-    # players = generates_players()
     tournament = Tournament(name, location, date, players, rounds, time_control, notes)
     tournament.tournament_is_on = True
-
-    # tournament.pairs_by_rank()
-    # pprint.pprint(tournament.pairs_by_rank())
-    # tournament.display_tournament_infos()
-    # with open('tournament.json', "w") as f:
-    #     json.dump(tournament.tournaments, f, indent=4, ensure_ascii=False)
     return tournament

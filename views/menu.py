@@ -84,6 +84,7 @@ def display_tournaments_report():
 \t\t\t|  4: Retour Menu Rapport
 """)
 
+
 def display_tournament_running(t_is_on, tournoi):
     if t_is_on:
         print(f"\n\t     *** Le tournoi '{tournoi}' est en cours d'exécution ***")

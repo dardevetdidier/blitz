@@ -1,6 +1,3 @@
-from prettytable import PrettyTable
-
-
 def t_to_load(table_obj, tournaments):
     for i in range(len(tournaments)):
         table_obj.add_row([i + 1, tournaments[i]['name'], tournaments[i]['date'],
@@ -30,5 +27,3 @@ def players_reports(user_choice, table_obj, players):
         table_obj.sortby = "Classement"
 
     print(table_obj)
-
-

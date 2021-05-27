@@ -1,8 +1,5 @@
 from models.players import Player
 from random import randint
-from tinydb import TinyDB
-
-# players_db = TinyDB('players.json', encoding='utf-8', ensure_ascii=False)
 
 
 def enters_player_info(db):
@@ -37,8 +34,3 @@ def generates_players(id_player, db):
         players.append(player.serialize_player)
 
     return players
-
-
-# def add_player_db(player):
-#     """insert player in db db"""
-#     players_db.insert(player.serialize_player)

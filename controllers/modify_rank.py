@@ -1,5 +1,6 @@
 from tinydb.operations import set
 
+
 def modify_rank(db, query, players):
     id_player_to_modify = 0
     while True:

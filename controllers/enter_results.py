@@ -1,6 +1,3 @@
-from views.art import enter_scores
-
-
 def enter_results(player1, player2):
     """User enters results of the round. Returns Tuple of 2 lists ([player1, score1], [player2, score2])"""
     player1_score = 0.1
