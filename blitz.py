@@ -13,6 +13,7 @@ from controllers.enter_results import enter_results
 from controllers.confirm import confirm_action
 from controllers.press_to_clear import enter_to_clear
 from controllers.generates_players import generates_players, enters_player_info
+from controllers.modify_rank import modify_rank
 from views.menu import display_main_menu, display_tournament_menu, display_tournament_running, display_player_menu,\
     display_ranking_menu, display_report_menu, display_players_report, display_tournaments_report,\
     display_alpha_or_rank, choose_item
@@ -310,31 +311,20 @@ def main():
                 serialized_players = players_db.all()
                 user_choice = choose_item(3)
 
+                # ***** RANKING  ******************* MODIFY PLAYER'S RANKING ******************************
+
                 if user_choice == 1:
                     system('cls')
                     p_table_players.field_names = ["Identifiant", "Nom", "Prénom", "Date de naissance", "Classement"]
                     players_reports(1, p_table_players, serialized_players)
 
-                    id_player_to_modify = 0
-                    while True:
-                        try:
-                            id_player_to_modify = int(input("\n\t    --> Entrer l'identifiant du joueur à modifier: "))
-                            if id_player_to_modify in range(1, len(serialized_players) + 1):
-                                break
-                        except ValueError:
-                            continue
-
-                    player_to_modify = players_db.search(query.player_id == id_player_to_modify)
-                    name_p_to_modify = player_to_modify[0]['first_name'] + " " + player_to_modify[0]['name']
-
-                    new_rank = int(input(f"\n\t    --> Entrer le nouveau classement de {name_p_to_modify}: "))
-
-                    players_db.update(set('rank', new_rank), query.player_id == id_player_to_modify)
-                    print("\n\t\t*** Le classement du joueur a été mis à jour ***")
+                    modify_rank(players_db, query, serialized_players)
 
                     enter_to_clear()
                     p_table_players.clear()
                     continue
+
+                # ***** RANKING  ******************* DISPLAY PLAYERS' RANKING ******************************
 
                 elif user_choice == 2:
                     print(display_players_art)
@@ -357,7 +347,7 @@ def main():
                 display_report_menu()
                 user_choice = choose_item(3)
 
-                # *******************  DISPLAY PLAYERS MENU *************************************************
+                # ******** REPORTS ***  DISPLAY PLAYERS MENU *************************************************
 
                 if user_choice == 1:
                     system('cls')
@@ -366,7 +356,7 @@ def main():
 
                     user_choice = choose_item(3)
 
-                    # ********************  ALL SAVED PLAYERS MENU  ************************************
+                    # ****** REPORTS *****  ALL SAVED PLAYERS MENU  ************************************
 
                     if user_choice == 1:
                         system('cls')
@@ -374,7 +364,7 @@ def main():
                         display_alpha_or_rank()
                         user_choice_2 = choose_item(3)
 
-                    # user choose display alpha or rank sort
+                    # user has to choose beetween display alpha or rank sort
 
                         if user_choice_2 == 1 or user_choice_2 == 2:
                             p_table_players.field_names = ["identifiant", "Nom", "Prénom", "Date de naissance",
@@ -386,7 +376,7 @@ def main():
                         elif user_choice_2 == 3:
                             break
 
-                    # *************************  DISPLAY THE PLAYERS OF A TOURNAMENT MENU  ****************************
+                    # ********* REPORTS ********  DISPLAY THE PLAYERS OF A TOURNAMENT MENU  ****************************
 
                     elif user_choice == 2:
                         system('cls')
@@ -410,13 +400,13 @@ def main():
                         elif user_choice_2 == 3:
                             break
 
-                    # ************************  back to previous menu   ***********************************
+                    # ********** REPORTS ******  back to previous menu   ***********************************
 
                     elif user_choice == 3:
                         system('cls')
                         continue
 
-                # ******************************  DISPLAY TOURNAMENTS MENU  ******************************
+                # ************** REPORTS ********  DISPLAY TOURNAMENTS MENU  ******************************
                 elif user_choice == 2:
                     system('cls')
                     print(tournaments_reports_art)
