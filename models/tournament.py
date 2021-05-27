@@ -79,13 +79,12 @@ class Tournament:
 
         while len(score_rank_sort_list) < self.num_rounds * 2:
             counter = scores_list.count(scores_list[0])  # returns how many players with the first score of the list
-            # print(score_sorted_list[0]['total_score'])
-            # print(counter)
 
             for i in range(counter):
                 equal_scores_list.append(score_sorted_list[0])  # add player with first score in the list
                 del score_sorted_list[0]  # delete the first occurence of the list
                 del scores_list[0]  # delete the first occurence of the score list
+
             # definitive list is sorted with 'sort_new_list' function
             score_rank_sort_list = self.sort_new_list(equal_scores_list, score_rank_sort_list)
 
@@ -134,6 +133,3 @@ class Tournament:
     def update_tournament_db(db, query, rounds, players, serial_tournament):
         db.update({'rounds': rounds}, query.name == serial_tournament['name'])
         db.update({'players': players}, query.name == serial_tournament['name'])
-
-
-

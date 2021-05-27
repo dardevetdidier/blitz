@@ -38,27 +38,24 @@ class Player:
         player = Player(player_id, name, first_name, birth, sex, rank, total_score)
         return player
 
+    def add_player_to_db(self, db):
+        db.insert(self.serialize_player)
+
     @staticmethod
-    def add_player_to_db(db, query, players):
+    def update_players_score(db, query, players):
         for player in range(len(players)):
             db.update(set('total_score', players[player]['total_score']),
                       query.player_id == players[player]['player_id'])
 
-    # @staticmethod
-    # def modify_rank(db, query, players):
-    #     id_player_to_modify = 0
-    #     while True:
-    #         try:
-    #             id_player_to_modify = int(input("\n\t    --> Entrer l'identifiant du joueur à modifier: "))
-    #             if id_player_to_modify in range(1, len(players) + 1):
-    #                 break
-    #         except ValueError:
-    #             continue
+    # def update_players_score(self, db):
+    #     db.update({'total_score': self.serialize_player['total_score']})
+
+    # def save_player(self):
+    #     """load json file, add player (dict) into file return the list of all players"""
+    #     with open("players.json", "r", encoding="utf-8") as f:
+    #         players = json.load(f)
     #
-    #     player_to_modify = db.search(query.player_id == id_player_to_modify)
-    #     name_p_to_modify = player_to_modify[0]['first_name'] + " " + player_to_modify[0]['name']
+    #     players.append(self.serialize_player)
     #
-    #     new_rank = int(input(f"\n\t    --> Entrer le nouveau classement de {name_p_to_modify}: "))
-    #
-    #     db.update(set('rank', new_rank), query.player_id == id_player_to_modify)
-    #     print("\n\t\t*** Le classement du joueur a été mis à jour ***")
+    #     with open('players.json', "w", encoding="utf-8") as f:
+    #         json.dump(players, f, indent=4, ensure_ascii=False)

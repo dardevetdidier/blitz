@@ -15,6 +15,7 @@ def enters_player_info(db):
     rank = randint(1, 200)
     total_score = 0
     player = Player(player_id, name, first_name, birth, sex, rank, total_score)
+
     player.add_player_to_db(db)
 
 
