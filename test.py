@@ -158,8 +158,7 @@ from time import localtime, strftime
 #          returns a list of 4 lists of 2 players"""
 #
 #         score_sorted_list = sorted(self.players, key=lambda k: k['total_score'], reverse=True)
-#         # TODO : reorganiser selon MVC
-#         # TODO : si scores sont egaux trier en fonction du rang
+#
 #         pprint(score_sorted_list)
 #         pairs_sort_by_score = []
 #         for player in range(0, 8, 2):

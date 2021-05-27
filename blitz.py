@@ -28,9 +28,6 @@ def main():
     pairs_sort_rank = []
     player = Player(None, None, None, None, None, None, None)
     tournament = Tournament(None, None, None, None, None, None, None)
-
-    serialized_tournaments = tournament_db.all()
-    serialized_players = players_db.all()
     round_is_on = False
     rnd = Round(None)
     round_number = len(rnd.round_list) + 1
@@ -42,8 +39,9 @@ def main():
     p_table_players.align = "c"
 
 
-    # TODO : implémenter continuer tournoi -> load
     while app_is_on:
+        serialized_tournaments = tournament_db.all()
+        serialized_players = players_db.all()
         system('cls')
         print(logo)
         print(main_menu_art)
@@ -292,7 +290,8 @@ def main():
                         system('cls')
                         print(display_players_art)
                         print("\n\t   Liste des joueurs enregistrés\n")
-                        p_table_players.field_names = ["Nom", "Prénom", "Date de naissance", "Classement"]
+                        p_table_players.field_names = ["identifiant", "Nom", "Prénom", "Date de naissance",
+                                                       "Classement"]
                         players_reports(user_choice_2, p_table_players, serialized_players)
                         enter_to_clear()
                         p_table_players.clear()
@@ -304,17 +303,50 @@ def main():
         # **** RANKING MENU *****************************************************************************
 
         elif user_choice == 3:
-            system('cls')
-            print(ranking_menu_art)
-            display_ranking_menu()
-            user_choice = choose_item(3)
+            while True:
+                system('cls')
+                print(ranking_menu_art)
+                display_ranking_menu()
+                serialized_players = players_db.all()
+                user_choice = choose_item(3)
 
-            if user_choice == 1:
-                pass
-            elif user_choice == 2:
-                pass
-            elif user_choice == 3:
-                pass
+                if user_choice == 1:
+                    system('cls')
+                    p_table_players.field_names = ["Identifiant", "Nom", "Prénom", "Date de naissance", "Classement"]
+                    players_reports(1, p_table_players, serialized_players)
+
+                    id_player_to_modify = 0
+                    while True:
+                        try:
+                            id_player_to_modify = int(input("\n\t    --> Entrer l'identifiant du joueur à modifier: "))
+                            if id_player_to_modify in range(1, len(serialized_players) + 1):
+                                break
+                        except ValueError:
+                            continue
+
+                    player_to_modify = players_db.search(query.player_id == id_player_to_modify)
+                    name_p_to_modify = player_to_modify[0]['first_name'] + " " + player_to_modify[0]['name']
+
+                    new_rank = int(input(f"\n\t    --> Entrer le nouveau classement de {name_p_to_modify}: "))
+
+                    players_db.update(set('rank', new_rank), query.player_id == id_player_to_modify)
+                    print("\n\t\t*** Le classement du joueur a été mis à jour ***")
+
+                    enter_to_clear()
+                    p_table_players.clear()
+                    continue
+
+                elif user_choice == 2:
+                    print(display_players_art)
+                    system('cls')
+                    p_table_players.field_names = ["Identifiant", "Nom", "Prénom", "Date de naissance", "Classement"]
+                    players_reports(2, p_table_players, serialized_players)
+                    enter_to_clear()
+                    p_table_players.clear()
+                    continue
+
+                elif user_choice == 3:
+                    break
 
         # **** REPORT MENU *****************************************************************************
 
@@ -345,7 +377,8 @@ def main():
                     # user choose display alpha or rank sort
 
                         if user_choice_2 == 1 or user_choice_2 == 2:
-                            p_table_players.field_names = ["Nom", "Prénom", "Date de naissance", "Classement"]
+                            p_table_players.field_names = ["identifiant", "Nom", "Prénom", "Date de naissance",
+                                                           "Classement"]
                             players_reports(user_choice_2, p_table_players, serialized_players)
                             enter_to_clear()
                             p_table_players.clear()
@@ -367,7 +400,8 @@ def main():
                         user_choice_2 = choose_item(3)
 
                         if user_choice_2 == 1 or user_choice_2 == 2:
-                            p_table_players.field_names = ["Nom", "Prénom", "Date de naissance", "Classement"]
+                            p_table_players.field_names = ["identifiant", "Nom", "Prénom", "Date de naissance",
+                                                           "Classement"]
                             players_reports(user_choice_2, p_table_players, players_to_display)
                             enter_to_clear()
                             p_table_players.clear()
@@ -387,7 +421,7 @@ def main():
                     system('cls')
                     print(tournaments_reports_art)
                     display_tournaments_report()
-                    enter_to_clear()
+                    # enter_to_clear()
 
                     user_choice = choose_item(4)
 

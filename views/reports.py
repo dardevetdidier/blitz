@@ -22,7 +22,8 @@ def t_to_load(table_obj, tournaments):
 
 def players_reports(user_choice, table_obj, players):
     for i in range(len(players)):
-        table_obj.add_row([players[i]['name'], players[i]['first_name'], players[i]['birth'], players[i]['rank']])
+        table_obj.add_row([players[i]['player_id'], players[i]['name'], players[i]['first_name'], players[i]['birth'],
+                           players[i]['rank']])
     if user_choice == 1:
         table_obj.sortby = "Nom"
     elif user_choice == 2:
