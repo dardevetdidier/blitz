@@ -17,4 +17,4 @@ def modify_rank(db, query, players):
     new_rank = int(input(f"\n\t    --> Entrer le nouveau classement de {name_p_to_modify}: "))
 
     db.update(set('rank', new_rank), query.player_id == id_player_to_modify)
-    print("\n\t\t*** Le classement du joueur a été mis à jour ***")
+    print(f"\n\t\t*** Le classement de {name_p_to_modify} a été mis à jour ***")

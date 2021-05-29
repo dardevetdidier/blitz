@@ -69,19 +69,19 @@ def display_players_report():
 
 def display_alpha_or_rank():
     print("""
-\t\t\t|  Afficher les joueurs:
-\t\t\t|     1: Par ordre alphabétique
-\t\t\t|     2: Par classement
-\t\t\t|     3: Retour
+\t\t\tAfficher les joueurs:
+
+\t\t\t    |  1: Par ordre alphabétique
+\t\t\t    |  2: Par classement
+\t\t\t    |  3: Retour
 """)
 
 
-def display_tournaments_report():
+def display_tournaments_report_menu():
     print("""
 \t\t\t|  1: Afficher tous les tournois
-\t\t\t|  2: Afficher les tours d'un tournoi
-\t\t\t|  3: Afficher les matches d'un tournoi
-\t\t\t|  4: Retour Menu Rapport
+\t\t\t|  2: Afficher les tours et les matches d'un tournoi
+\t\t\t|  3: Retour Menu Rapport
 """)
 
 

@@ -1,4 +1,5 @@
-from pprint import pprint
+from tinydb import TinyDB, Query
+from tinydb.operations import set
 
 
 class Tournament:
@@ -12,6 +13,8 @@ class Tournament:
         self.time_control = time_control
         self.notes = notes
         self.tournament_is_on = False
+        self.tournaments_db = TinyDB('tournaments.json', encoding='utf-8', ensure_ascii=False, indent=4)
+        self.players_db = TinyDB('players.json', encoding='utf-8', ensure_ascii=False, indent=4)
 
     @property
     def serialize_tournament(self):
@@ -123,13 +126,16 @@ class Tournament:
             pairs_sort_by_score.append(pair_sort_by_score)
         return pairs_sort_by_score
 
-    def display_tournament_infos(self):  # -> Vue
-        return pprint(self.serialize_tournament, sort_dicts=False)
+    def insert_db(self):
+        self.tournaments_db.insert(self.serialize_tournament)
 
-    def insert_db(self, db):
-        db.insert(self.serialize_tournament)
+    def update_tournament_db(self, serial_tournament):
+        query = Query()
+        self.tournaments_db.update({'rounds': self.rounds}, query.name == serial_tournament['name'])
+        self.tournaments_db.update({'players': self.players}, query.name == serial_tournament['name'])
 
-    @staticmethod
-    def update_tournament_db(db, query, rounds, players, serial_tournament):
-        db.update({'rounds': rounds}, query.name == serial_tournament['name'])
-        db.update({'players': players}, query.name == serial_tournament['name'])
+    def update_players_score(self):
+        query = Query()
+        for player in range(len(self.players)):
+            self.players_db.update(set('total_score', self.players[player]['total_score']),
+                                   query.player_id == self.players[player]['player_id'])
