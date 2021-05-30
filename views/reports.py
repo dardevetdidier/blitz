@@ -1,4 +1,6 @@
 from prettytable import PrettyTable
+from controllers import press_to_clear
+import os
 
 
 def t_to_load(table_obj, tournaments):
@@ -17,7 +19,7 @@ def t_to_load(table_obj, tournaments):
     tournament_to_load = 0
     while True:
         try:
-            tournament_to_load = int(input("\n  --> Choisissez le n° du tournoi : "))
+            tournament_to_load = int(input("\n    --> Choisissez le n° du tournoi : "))
             if tournament_to_load in range(1, len(tournaments) + 1):
                 break
         except ValueError:
@@ -39,21 +41,26 @@ def players_reports(user_choice, table_obj, players):
                            ])
     if user_choice == 1:
         table_obj.sortby = "Nom"
+        print("\n\t\t   Joueurs (par ordre alphabétique)\n")
     elif user_choice == 2:
         table_obj.sortby = "Classement"
+        print("\n\t\t       Joueurs (par classement)\n")
 
     print(table_obj)
 
 
 def tournaments_report(table_obj_tournaments, table_obj_players, tournaments):
     """ displays information of each tournament"""
-
+    table_obj_tournaments.field_names = ["n°", "Nom", "Date", "Lieu", "Rounds joués", "controle temps",
+                                         "description"]
     for i in range(len(tournaments)):
         table_obj_tournaments.add_row([i + 1,
                                        tournaments[i]['name'],
                                        tournaments[i]['date'],
                                        tournaments[i]['location'],
-                                       len(tournaments[i]['rounds'])
+                                       len(tournaments[i]['rounds']),
+                                       tournaments[i]['time_control'],
+                                       tournaments[i]['notes']
                                        ])
 
     print("\n\t\tTournois sauvegardés")
@@ -63,9 +70,10 @@ def tournaments_report(table_obj_tournaments, table_obj_players, tournaments):
         table_obj_players.field_names = ["Identifiant", "Nom", "Prénom", "Date de naissance",
                                          "Classement"]
         print(f"\n\t\tListe des joueurs du tournoi {i + 1}:\n")
-        players_to_display = tournaments[i - 1]['players']
+        players_to_display = tournaments[i]['players']
         players_reports(1, table_obj_players, players_to_display)
         table_obj_players.clear()
+        table_obj_tournaments.clear()
 
 
 def rounds_reports(rounds_to_display):
@@ -98,3 +106,15 @@ def rounds_reports(rounds_to_display):
 
             print(p_table_round)
             p_table_round.clear()
+
+
+def no_tournaments():
+    print("\n\t\t *** IL N'EXISTE AUCUN TOURNOI SAUVEGARDE ***")
+    press_to_clear.enter_to_clear()
+    os.system('cls')
+
+
+def no_players():
+    print("\n\t\t *** IL N'EXISTE AUCUN JOUEUR SAUVEGARDE ***")
+    press_to_clear.enter_to_clear()
+    os.system('cls')

@@ -1,4 +1,4 @@
-from models.players import Player
+from models.player import Player
 from random import randint
 
 
@@ -22,7 +22,7 @@ def generates_players(id_player):
     for i in range(1, 9):
         print(f"\n\tEntrez les informations du joueur {id_player + i} :\n ")
         player_id = id_player + i
-        name = f"joueur"  # input("Nom : ")
+        name = f"Joueur"  # input("Nom : ")
         first_name = str(id_player + i)  # input("Prénom : ")
         birth = "01/01/2000"  # input("Date de naissance : ")
         sex = "m"  # input("Sexe : ")
@@ -34,3 +34,4 @@ def generates_players(id_player):
         players.append(player.serialize_player)
 
     return players
+

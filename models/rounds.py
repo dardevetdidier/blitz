@@ -25,6 +25,3 @@ class Round:
         self.round_list[2] = self.end_time
         self.round_list[-1] = scores
         return self.round_list
-
-    def display_round_infos(self):
-        pass
