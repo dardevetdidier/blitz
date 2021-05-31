@@ -13,3 +13,17 @@ def enter_results(player1, player2):
     result = ([f"player {player1['player_id']}", player1_score],
               [f"player {player2['player_id']}", player2_score])
     return result
+
+
+def creates_results_list(round_nb, pairs_rank, pairs_score):
+    results_list = []
+    if round_nb == 1:
+        for i in range(len(pairs_rank)):
+            results = enter_results(pairs_rank[i][0], pairs_rank[i][-1])
+            results_list.append(results)
+    else:
+        for i in range(len(pairs_score)):
+            results = enter_results(pairs_score[i][0], pairs_score[i][-1])
+            results_list.append(results)
+
+    return results_list

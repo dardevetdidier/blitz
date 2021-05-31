@@ -6,7 +6,7 @@ from views.art import enter_scores, tournament_menu_art, main_menu_art, logo, ra
 from models.tournament import Tournament
 from models.rounds import Round
 from controllers.launch_tournament import launch_tournament
-from controllers.enter_results import enter_results
+from controllers.enter_results import creates_results_list
 from controllers.confirm import confirm_action
 from controllers.press_to_clear import enter_to_clear
 from controllers.generates_players import generates_players, enters_player_info
@@ -15,6 +15,8 @@ from views.menu import display_main_menu, display_tournament_menu, display_tourn
     display_ranking_menu, display_report_menu, display_players_report, display_tournaments_report_menu, \
     display_alpha_or_rank, choose_item
 from views.reports import t_to_load, players_reports, tournaments_report, rounds_reports, no_tournaments, no_players
+from views.display_information import display_info_end_round, display_info_exit_tournament, \
+    display_info_tournament_already_running
 
 
 # ***************** --> MAIN *****************************
@@ -64,20 +66,17 @@ def main():
                     else:
                         os.system('cls')
                         if not tournament.tournament_is_on:
-                            # create a tournament - user enters the information
+                            # user enters the information of the players and system creates a tournament
                             players = generates_players(len(players_db))
                             tournament = launch_tournament(players)
+
+                            # the tournament is written in DB
                             tournament.insert_db()
 
-                            # sys create pairs of players sorted by ranking
-                            pairs_sort_rank = tournament.pairs_by_rank()
-                            print("\t\nLes informations du tournoi ont bien été enregistrées.")
-                            input("\t\n--> Appuyez sur 'Entrée' pour continuer: ")
                             os.system('cls')
                             continue
                         else:
-                            print("\n\tUn tournoi est déjà en cours.")
-                            enter_to_clear()
+                            display_info_tournament_already_running()
                             continue
 
                 # **** LOAD TOURNAMENT ****************************************************************
@@ -92,8 +91,10 @@ def main():
                     # create new tournament instance using tournament db
                     tournament = Tournament.deserialize_tournament(serialized_tournaments[tournament_to_load - 1])
                     round_number = len(tournament.rounds) + 1
-                    if not round_number > tournament.num_rounds:
-                        tournament.tournament_is_on = True
+
+                    tournament.switch_tournament_on(round_number)
+                    # if not round_number > tournament.num_rounds:
+                    #     tournament.tournament_is_on = True
 
                     print(f"\n\t*** Le tournoi '{serialized_tournaments[tournament_to_load - 1]['name']}'"
                           f" a bien été chargé ***")
@@ -112,7 +113,7 @@ def main():
                     else:
 
                         if tournament.tournament_is_on:
-                            # system creates a round
+                            # system creates a round - first evaluates if this is the first round or not.
                             if round_number == 1:
                                 rnd = Round(pairs_sort_rank)
                             else:
@@ -147,17 +148,10 @@ def main():
                         print(enter_scores)
                         if round_is_on:
                             # ********************  ENTER RESULTS  ********************************
-                            results_list = []
+
+                            pairs_sort_score = tournament.pairs_by_score(tournament.sort_by_score())
                             print()
-                            if round_number == 1:
-                                for i in range(len(pairs_sort_rank)):
-                                    results = enter_results(pairs_sort_rank[i][0], pairs_sort_rank[i][-1])
-                                    results_list.append(results)
-                            else:
-                                pairs_sort_score = tournament.pairs_by_score(tournament.sort_by_score())
-                                for i in range(len(pairs_sort_score)):
-                                    results = enter_results(pairs_sort_score[i][0], pairs_sort_score[i][-1])
-                                    results_list.append(results)
+                            results_list = creates_results_list(round_number, pairs_sort_rank, pairs_sort_score)
 
                             # ******************  FINISHES THE ROUND  *******************************
 
@@ -179,14 +173,8 @@ def main():
                             print("\n\tLes résultats du round sont bien enregistrés.")
                             print(f"\n\t     ****  LE ROUND {round_number} EST TERMINE  ****")
 
-                            if round_number == tournament.num_rounds:
-                                tournament.tournament_is_on = False
-                                print(f"\n\tLe tournoi '{tournament.name}' est terminé.")
-                                enter_to_clear()
-                            else:
-                                print("\n\tVous pouvez créer un nouveau round dans le menu 'Tournoi'.")
-                                enter_to_clear()
-                            round_number += 1
+                            display_info_end_round(round_number, tournament)
+
                         else:
                             print("\n\tImpossible de rentrer les résultats. Aucun round n'est en cours.")
                             enter_to_clear()
@@ -199,16 +187,8 @@ def main():
                     if confirm_action() == 2:
                         os.system('cls')
                     else:
-                        if tournament.tournament_is_on:
-                            tournament.tournament_is_on = False
-                            round_number = 1
-                            print("\n\tLe tournoi a bien été interrompu.")
-                            enter_to_clear()
-                            main()
-                        else:
-                            print("\n\tIl n'y a pas de tournoi en cours.")
-                        enter_to_clear()
-                        continue
+                        display_info_exit_tournament(tournament)
+                        main()
 
                 # **** RETURN MAIN MENU ****************************************************************
 
@@ -248,12 +228,11 @@ def main():
                         if user_choice_2 == 1 or user_choice_2 == 2:
                             os.system('cls')
                             print(display_players_art)
-                            print("\n\t\t     Liste des joueurs enregistrés\n")
-                            p_table_players.field_names = ["identifiant", "Nom", "Prénom", "Date de naissance",
-                                                           "Classement"]
-                            players_reports(user_choice_2, p_table_players, serialized_players)
+                            print("\n\t\t    Liste des joueurs enregistrés\n")
+
+                            players_reports(user_choice_2, serialized_players)
                             enter_to_clear()
-                            p_table_players.clear()
+
                         else:
                             break
 
@@ -275,13 +254,10 @@ def main():
 
                 if user_choice == 1:
                     os.system('cls')
-                    p_table_players.field_names = ["Identifiant", "Nom", "Prénom", "Date de naissance", "Classement"]
-                    players_reports(1, p_table_players, serialized_players)
-
+                    players_reports(1, serialized_players)
                     modify_rank(players_db, query, serialized_players)
 
                     enter_to_clear()
-                    p_table_players.clear()
                     continue
 
                 # ***** RANKING  ******************* DISPLAY PLAYERS' RANKING ******************************
@@ -289,10 +265,9 @@ def main():
                 elif user_choice == 2:
                     os.system('cls')
                     print(display_players_art)
-                    p_table_players.field_names = ["Identifiant", "Nom", "Prénom", "Date de naissance", "Classement"]
-                    players_reports(2, p_table_players, serialized_players)
+                    players_reports(2, serialized_players)
+
                     enter_to_clear()
-                    p_table_players.clear()
                     continue
 
                 elif user_choice == 3:
@@ -316,7 +291,6 @@ def main():
                         print(player_reports_art)
                         display_players_report()
                         serialized_tournaments = tournament_db.all()
-
                         user_choice = choose_item(3)
 
                         # ****** REPORTS *****  ALL SAVED PLAYERS MENU  ************************************
@@ -332,11 +306,9 @@ def main():
                             if user_choice_2 == 1 or user_choice_2 == 2:
                                 os.system('cls')
                                 print(display_players_art)
-                                p_table_players.field_names = ["identifiant", "Nom", "Prénom", "Date de naissance",
-                                                               "Classement"]
-                                players_reports(user_choice_2, p_table_players, serialized_players)
+
+                                players_reports(user_choice_2, serialized_players)
                                 enter_to_clear()
-                                p_table_players.clear()
 
                             elif user_choice_2 == 3:
                                 continue
@@ -362,11 +334,10 @@ def main():
                                 if user_choice_2 == 1 or user_choice_2 == 2:
                                     os.system('cls')
                                     print(display_players_art)
-                                    p_table_players.field_names = ["Identifiant", "Nom", "Prénom", "Date de naissance",
-                                                                   "Classement"]
-                                    players_reports(user_choice_2, p_table_players, players_to_display)
+
+                                    players_reports(user_choice_2, players_to_display)
+
                                     enter_to_clear()
-                                    p_table_players.clear()
                                     p_table_tournament.clear()
 
                                 elif user_choice_2 == 3:
@@ -396,10 +367,8 @@ def main():
                                 no_tournaments()
                                 break
                             else:
-                                tournaments_report(p_table_tournament, p_table_players, serialized_tournaments)
+                                tournaments_report(p_table_tournament, serialized_tournaments)
                                 enter_to_clear()
-                                # p_table_tournament.clear()
-                                # p_table_players.clear()
                                 continue
 
                         # **** REPORTS *********  DISPLAY ROUNDS BY TOURNAMENT ************************
@@ -416,8 +385,10 @@ def main():
                                 # user choose tournament to load
                                 tournament_to_load = t_to_load(p_table_tournament, serialized_tournaments)
                                 rounds_to_display = serialized_tournaments[tournament_to_load - 1]['rounds']
+
                                 # displays rounds and matches of a tournament
                                 rounds_reports(rounds_to_display)
+
                                 enter_to_clear()
                                 continue
 

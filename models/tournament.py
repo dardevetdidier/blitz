@@ -1,5 +1,6 @@
 from tinydb import TinyDB, Query
 from tinydb.operations import set
+from controllers.press_to_clear import enter_to_clear
 
 
 class Tournament:
@@ -127,15 +128,25 @@ class Tournament:
         return pairs_sort_by_score
 
     def insert_db(self):
+        """ writes tournament information in tournament.json file"""
         self.tournaments_db.insert(self.serialize_tournament)
+        print("\t\nLes informations du tournoi ont bien été enregistrées.")
+        enter_to_clear()
 
     def update_tournament_db(self, serial_tournament):
+        """ Updates 'rounds' and 'players' values in tournament.json file"""
         query = Query()
         self.tournaments_db.update({'rounds': self.rounds}, query.name == serial_tournament['name'])
         self.tournaments_db.update({'players': self.players}, query.name == serial_tournament['name'])
 
     def update_players_score(self):
+        """ Updates 'total_score' values of the players of a tournament in tournament.json file"""
         query = Query()
         for player in range(len(self.players)):
             self.players_db.update(set('total_score', self.players[player]['total_score']),
                                    query.player_id == self.players[player]['player_id'])
+
+    def switch_tournament_on(self, round_nb):
+        """ Assign 'True' value to attribut 'tournament_is_on'"""
+        if not round_nb > self.num_rounds:
+            self.tournament_is_on = True

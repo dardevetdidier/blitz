@@ -29,27 +29,30 @@ def t_to_load(table_obj, tournaments):
     return tournament_to_load
 
 
-def players_reports(user_choice, table_obj, players):
+def players_reports(user_choice, players):
     """displays a table of players sorted by name or ranking"""
-
+    p_table_players = PrettyTable()
+    p_table_players.field_names = ["identifiant", "Nom", "Prénom", "Date de naissance",
+                                   "Classement"]
     for i in range(len(players)):
-        table_obj.add_row([players[i]['player_id'],
-                           players[i]['name'],
-                           players[i]['first_name'],
-                           players[i]['birth'],
-                           (players[i]['rank'])
-                           ])
+        p_table_players.add_row([players[i]['player_id'],
+                                 players[i]['name'],
+                                 players[i]['first_name'],
+                                 players[i]['birth'],
+                                 (players[i]['rank'])
+                                 ])
     if user_choice == 1:
-        table_obj.sortby = "Nom"
-        print("\n\t\t   Joueurs (par ordre alphabétique)\n")
+        p_table_players.sortby = "Nom"
+        print("\t\t   Joueurs (par ordre alphabétique)")
     elif user_choice == 2:
-        table_obj.sortby = "Classement"
-        print("\n\t\t       Joueurs (par classement)\n")
+        p_table_players.sortby = "Classement"
+        print("\t\t       Joueurs (par classement)")
 
-    print(table_obj)
+    print(p_table_players)
+    p_table_players.clear()
 
 
-def tournaments_report(table_obj_tournaments, table_obj_players, tournaments):
+def tournaments_report(table_obj_tournaments, tournaments):
     """ displays information of each tournament"""
     table_obj_tournaments.field_names = ["n°", "Nom", "Date", "Lieu", "Rounds joués", "controle temps",
                                          "description"]
@@ -67,12 +70,9 @@ def tournaments_report(table_obj_tournaments, table_obj_players, tournaments):
     print(f"\n{table_obj_tournaments}\n")
 
     for i in range(len(tournaments)):
-        table_obj_players.field_names = ["Identifiant", "Nom", "Prénom", "Date de naissance",
-                                         "Classement"]
-        print(f"\n\t\tListe des joueurs du tournoi {i + 1}:\n")
+        print(f"\n\t\t   Liste des joueurs du tournoi {i + 1}:\n")
         players_to_display = tournaments[i]['players']
-        players_reports(1, table_obj_players, players_to_display)
-        table_obj_players.clear()
+        players_reports(1, players_to_display)
         table_obj_tournaments.clear()
 
 
@@ -81,7 +81,6 @@ def rounds_reports(rounds_to_display):
     Displays information of each round of this tournament """
 
     p_table_round = PrettyTable()
-    # p_table_round.field_names = ["paires", "date de début", "date de fin"]
     column_names = ["paires", " résultats", "date de début", "date de fin"]
     pairs = []
     results = []
@@ -106,6 +105,8 @@ def rounds_reports(rounds_to_display):
 
             print(p_table_round)
             p_table_round.clear()
+            pairs = []
+            results = []
 
 
 def no_tournaments():
