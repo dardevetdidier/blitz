@@ -4,6 +4,7 @@ from controllers.press_to_clear import enter_to_clear
 
 
 class Tournament:
+    """object Tournament"""
     def __init__(self, name, location, date, players, rounds, time_control, notes):
         self.name = name
         self.location = location
@@ -19,6 +20,7 @@ class Tournament:
 
     @property
     def serialize_tournament(self):
+        """Serializes object tournament to a dictionnary"""
         serialized_tournament = {
             'name': self.name,
             'location': self.location,
@@ -33,6 +35,7 @@ class Tournament:
 
     @staticmethod
     def deserialize_tournament(serial_tournament):
+        """deserializes each attribut of 'tournament' object and returns an instance of Tournament object"""
         name = serial_tournament['name']
         location = serial_tournament['location']
         date = serial_tournament['date']
@@ -101,8 +104,8 @@ class Tournament:
         for player in range(0, 8, 2):
             for r in range(len(self.rounds)):  # iter in the tournament list of rounds
                 for p in range(len(self.rounds[r][4])):  # iter in the list of tuples
-                    if (list_by_score[player]['player_id'] in self.rounds[r][4][p] and
-                            list_by_score[player + 1]['player_id'] in self.rounds[r][4][p]):
+                    if (list_by_score[player]['player_id'] in self.rounds[r][4][p] and list_by_score[player + 1]
+                            ['player_id'] in self.rounds[r][4][p]):
                         return True
                     else:
                         return False

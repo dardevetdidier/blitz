@@ -1,3 +1,6 @@
+import os
+
+from controllers import press_to_clear
 from controllers.press_to_clear import enter_to_clear
 
 
@@ -25,3 +28,15 @@ def display_info_exit_tournament(tournament):
 def display_info_tournament_already_running():
     print("\n\t*** Un tournoi est déjà en cours. ***")
     enter_to_clear()
+
+
+def no_tournaments():
+    print("\n\t\t *** IL N'EXISTE AUCUN TOURNOI SAUVEGARDE ***")
+    press_to_clear.enter_to_clear()
+    os.system('cls')
+
+
+def no_players():
+    print("\n\t\t *** IL N'EXISTE AUCUN JOUEUR SAUVEGARDE ***")
+    press_to_clear.enter_to_clear()
+    os.system('cls')

@@ -14,7 +14,7 @@ def choose_item(items):
 
 
 def display_main_menu():
-    print(f"""
+    print("""
 \t\t\t|  1: Menu Tournoi
 \t\t\t|  2: Menu Joueurs
 \t\t\t|  3: Menu Classement

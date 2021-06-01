@@ -1,21 +1,33 @@
 from prettytable import PrettyTable
-from controllers import press_to_clear
-import os
 
 
-def t_to_load(table_obj, tournaments):
-    """ prints a table of all tournaments. User choose a tournament. Returns the number of the tournament (int)"""
-
+def display_tournaments_table(tournaments):
+    """
+    displays a table of all tournaments with various information
+    """
+    table_tournament = PrettyTable()
+    table_tournament.field_names = ["n°", "Nom", "Date", "Lieu", "Rounds joués", "controle temps",
+                                    "description"]
     for i in range(len(tournaments)):
-        table_obj.add_row([i + 1,
-                           tournaments[i]['name'],
-                           tournaments[i]['date'],
-                           tournaments[i]['location'],
-                           len(tournaments[i]['rounds'])
-                           ])
+        table_tournament.add_row([i + 1,
+                                  tournaments[i]['name'],
+                                  tournaments[i]['date'],
+                                  tournaments[i]['location'],
+                                  len(tournaments[i]['rounds']),
+                                  tournaments[i]['time_control'],
+                                  tournaments[i]['notes']
+                                  ])
 
-    print("\n\t\tTournois sauvegardés")
-    print(f"\n{table_obj}")
+    print("\n\t\t\t\tTournois sauvegardés")
+    print(f"\n{table_tournament}\n")
+    table_tournament.clear()
+
+
+def t_to_load(tournaments):
+    """
+    prints a table of all tournaments. User choose a tournament. Returns the number of the tournament (int)
+    """
+    display_tournaments_table(tournaments)
     tournament_to_load = 0
     while True:
         try:
@@ -25,49 +37,14 @@ def t_to_load(table_obj, tournaments):
         except ValueError:
             continue
 
-    table_obj.clear()
     return tournament_to_load
 
 
-def players_reports(user_choice, players):
-    """displays a table of players sorted by name or ranking"""
-    p_table_players = PrettyTable()
-    p_table_players.field_names = ["identifiant", "Nom", "Prénom", "Date de naissance",
-                                   "Classement"]
-    for i in range(len(players)):
-        p_table_players.add_row([players[i]['player_id'],
-                                 players[i]['name'],
-                                 players[i]['first_name'],
-                                 players[i]['birth'],
-                                 (players[i]['rank'])
-                                 ])
-    if user_choice == 1:
-        p_table_players.sortby = "Nom"
-        print("\t\t   Joueurs (par ordre alphabétique)")
-    elif user_choice == 2:
-        p_table_players.sortby = "Classement"
-        print("\t\t       Joueurs (par classement)")
-
-    print(p_table_players)
-    p_table_players.clear()
-
-
 def tournaments_report(table_obj_tournaments, tournaments):
-    """ displays information of each tournament"""
-    table_obj_tournaments.field_names = ["n°", "Nom", "Date", "Lieu", "Rounds joués", "controle temps",
-                                         "description"]
-    for i in range(len(tournaments)):
-        table_obj_tournaments.add_row([i + 1,
-                                       tournaments[i]['name'],
-                                       tournaments[i]['date'],
-                                       tournaments[i]['location'],
-                                       len(tournaments[i]['rounds']),
-                                       tournaments[i]['time_control'],
-                                       tournaments[i]['notes']
-                                       ])
-
-    print("\n\t\tTournois sauvegardés")
-    print(f"\n{table_obj_tournaments}\n")
+    """
+    displays information of each tournament
+    """
+    display_tournaments_table(tournaments)
 
     for i in range(len(tournaments)):
         print(f"\n\t\t   Liste des joueurs du tournoi {i + 1}:\n")
@@ -76,10 +53,13 @@ def tournaments_report(table_obj_tournaments, tournaments):
         table_obj_tournaments.clear()
 
 
-def rounds_reports(rounds_to_display):
-    """Takes in input the list of rounds of the tournament chosen by the user.
-    Displays information of each round of this tournament """
-
+def rounds_reports(tournaments):
+    """
+    Takes in input all the tournaments in db. User choose a tournament.
+    Displays information of each round of this tournament.
+    """
+    tournament_to_load = t_to_load(tournaments)
+    rounds_to_display = tournaments[tournament_to_load - 1]['rounds']
     p_table_round = PrettyTable()
     column_names = ["paires", " résultats", "date de début", "date de fin"]
     pairs = []
@@ -109,13 +89,26 @@ def rounds_reports(rounds_to_display):
             results = []
 
 
-def no_tournaments():
-    print("\n\t\t *** IL N'EXISTE AUCUN TOURNOI SAUVEGARDE ***")
-    press_to_clear.enter_to_clear()
-    os.system('cls')
+def players_reports(user_choice, players):
+    """
+    Displays a table of players sorted by name or ranking according to user choice.
+    """
+    p_table_players = PrettyTable()
+    p_table_players.field_names = ["identifiant", "Nom", "Prénom", "Date de naissance",
+                                   "Classement"]
+    for i in range(len(players)):
+        p_table_players.add_row([players[i]['player_id'],
+                                 players[i]['name'],
+                                 players[i]['first_name'],
+                                 players[i]['birth'],
+                                 (players[i]['rank'])
+                                 ])
+    if user_choice == 1:
+        p_table_players.sortby = "Nom"
+        print("\t\t   Joueurs (par ordre alphabétique)")
+    elif user_choice == 2:
+        p_table_players.sortby = "Classement"
+        print("\t\t       Joueurs (par classement)")
 
-
-def no_players():
-    print("\n\t\t *** IL N'EXISTE AUCUN JOUEUR SAUVEGARDE ***")
-    press_to_clear.enter_to_clear()
-    os.system('cls')
+    print(p_table_players)
+    p_table_players.clear()

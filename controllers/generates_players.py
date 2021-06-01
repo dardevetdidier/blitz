@@ -3,6 +3,7 @@ from random import randint
 
 
 def enters_player_info(db):
+    """Writes information of the new players entered by user in 'players.json' file"""
     print(f"\n\tEntrez les informations du joueur {len(db) + 1} :\n ")
     player_id = len(db) + 1
     name = input("Nom : ")
@@ -22,7 +23,7 @@ def generates_players(id_player):
     for i in range(1, 9):
         print(f"\n\tEntrez les informations du joueur {id_player + i} :\n ")
         player_id = id_player + i
-        name = f"Joueur"  # input("Nom : ")
+        name = "Joueur"  # input("Nom : ")
         first_name = str(id_player + i)  # input("Prénom : ")
         birth = "01/01/2000"  # input("Date de naissance : ")
         sex = "m"  # input("Sexe : ")
@@ -34,4 +35,3 @@ def generates_players(id_player):
         players.append(player.serialize_player)
 
     return players
-

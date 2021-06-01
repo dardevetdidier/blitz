@@ -1721,7 +1721,7 @@
                     "birth": "01/01/2000",
                     "sex": "m",
                     "rank": 120,
-                    "total_score": 0
+                    "total_score": 0.0
                 },
                 {
                     "player_id": 43,
@@ -1730,7 +1730,7 @@
                     "birth": "01/01/2000",
                     "sex": "m",
                     "rank": 97,
-                    "total_score": 0
+                    "total_score": 1.0
                 },
                 {
                     "player_id": 44,
@@ -1739,7 +1739,7 @@
                     "birth": "01/01/2000",
                     "sex": "m",
                     "rank": 103,
-                    "total_score": 0
+                    "total_score": 0.0
                 },
                 {
                     "player_id": 45,
@@ -1748,7 +1748,7 @@
                     "birth": "01/01/2000",
                     "sex": "m",
                     "rank": 167,
-                    "total_score": 0
+                    "total_score": 0.0
                 },
                 {
                     "player_id": 46,
@@ -1757,7 +1757,7 @@
                     "birth": "01/01/2000",
                     "sex": "m",
                     "rank": 74,
-                    "total_score": 0
+                    "total_score": 1.0
                 },
                 {
                     "player_id": 47,
@@ -1766,7 +1766,7 @@
                     "birth": "01/01/2000",
                     "sex": "m",
                     "rank": 18,
-                    "total_score": 0
+                    "total_score": 1.0
                 },
                 {
                     "player_id": 48,
@@ -1775,7 +1775,7 @@
                     "birth": "01/01/2000",
                     "sex": "m",
                     "rank": 162,
-                    "total_score": 0
+                    "total_score": 0.0
                 },
                 {
                     "player_id": 49,
@@ -1784,11 +1784,141 @@
                     "birth": "01/01/2000",
                     "sex": "m",
                     "rank": 69,
-                    "total_score": 0
+                    "total_score": 1.0
                 }
             ],
             "num_rounds": 4,
-            "rounds": [],
+            "rounds": [
+                [
+                    "round_1",
+                    "Tue 01 Jun 2021 22:14:15",
+                    "Tue 01 Jun 2021 22:14:25",
+                    [
+                        [
+                            {
+                                "player_id": 47,
+                                "name": "Joueur",
+                                "first_name": "47",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 18,
+                                "total_score": 1.0
+                            },
+                            {
+                                "player_id": 44,
+                                "name": "Joueur",
+                                "first_name": "44",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 103,
+                                "total_score": 0.0
+                            }
+                        ],
+                        [
+                            {
+                                "player_id": 49,
+                                "name": "Joueur",
+                                "first_name": "49",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 69,
+                                "total_score": 1.0
+                            },
+                            {
+                                "player_id": 42,
+                                "name": "Joueur",
+                                "first_name": "42",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 120,
+                                "total_score": 0.0
+                            }
+                        ],
+                        [
+                            {
+                                "player_id": 46,
+                                "name": "Joueur",
+                                "first_name": "46",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 74,
+                                "total_score": 1.0
+                            },
+                            {
+                                "player_id": 48,
+                                "name": "Joueur",
+                                "first_name": "48",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 162,
+                                "total_score": 0.0
+                            }
+                        ],
+                        [
+                            {
+                                "player_id": 43,
+                                "name": "Joueur",
+                                "first_name": "43",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 97,
+                                "total_score": 1.0
+                            },
+                            {
+                                "player_id": 45,
+                                "name": "Joueur",
+                                "first_name": "45",
+                                "birth": "01/01/2000",
+                                "sex": "m",
+                                "rank": 167,
+                                "total_score": 0.0
+                            }
+                        ]
+                    ],
+                    [
+                        [
+                            [
+                                "player 47",
+                                1.0
+                            ],
+                            [
+                                "player 44",
+                                0.0
+                            ]
+                        ],
+                        [
+                            [
+                                "player 49",
+                                1.0
+                            ],
+                            [
+                                "player 42",
+                                0.0
+                            ]
+                        ],
+                        [
+                            [
+                                "player 46",
+                                1.0
+                            ],
+                            [
+                                "player 48",
+                                0.0
+                            ]
+                        ],
+                        [
+                            [
+                                "player 43",
+                                1.0
+                            ],
+                            [
+                                "player 45",
+                                0.0
+                            ]
+                        ]
+                    ]
+                ]
+            ],
             "time_control": "bullet",
             "notes": "RAS"
         }

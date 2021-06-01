@@ -14,9 +14,9 @@ from controllers.modify_rank import modify_rank
 from views.menu import display_main_menu, display_tournament_menu, display_tournament_running, display_player_menu, \
     display_ranking_menu, display_report_menu, display_players_report, display_tournaments_report_menu, \
     display_alpha_or_rank, choose_item
-from views.reports import t_to_load, players_reports, tournaments_report, rounds_reports, no_tournaments, no_players
+from views.reports import t_to_load, players_reports, tournaments_report, rounds_reports
 from views.display_information import display_info_end_round, display_info_exit_tournament, \
-    display_info_tournament_already_running
+    display_info_tournament_already_running, no_tournaments, no_players
 
 
 # ***************** --> MAIN *****************************
@@ -85,8 +85,8 @@ def main():
                     serialized_tournaments = tournament_db.all()
                     os.system('cls')
                     print(load_tournament_art)
-                    p_table_tournament.field_names = ["N°", "Nom", "Date", "Lieu", "Rounds joués"]
-                    tournament_to_load = t_to_load(p_table_tournament, serialized_tournaments)
+                    # p_table_tournament.field_names = ["N°", "Nom", "Date", "Lieu", "Rounds joués"]
+                    tournament_to_load = t_to_load(serialized_tournaments)
 
                     # create new tournament instance using tournament db
                     tournament = Tournament.deserialize_tournament(serialized_tournaments[tournament_to_load - 1])
@@ -100,7 +100,7 @@ def main():
                           f" a bien été chargé ***")
 
                     enter_to_clear()
-                    p_table_tournament.clear()
+                    # p_table_tournament.clear()
                     continue
 
                 # **** NEW ROUND ****************************************************************
@@ -313,7 +313,7 @@ def main():
                             elif user_choice_2 == 3:
                                 continue
 
-                        # ********* REPORTS ********  DISPLAY THE PLAYERS OF A TOURNAMENT MENU  ************************
+                        # ********* REPORTS ********  DISPLAY THE PLAYERS OF A TOURNAMENT MENU  ***********************
 
                         elif user_choice == 2:
                             os.system('cls')
@@ -322,10 +322,8 @@ def main():
                                 no_tournaments()
                                 continue
                             else:
-                                p_table_tournament.field_names = ["n°", "Nom", "Date", "Lieu", "Rounds joués"]
-
                                 # user choose tournament to load
-                                tournament_to_load = t_to_load(p_table_tournament, serialized_tournaments)
+                                tournament_to_load = t_to_load(serialized_tournaments)
                                 players_to_display = serialized_tournaments[tournament_to_load - 1]['players']
 
                                 display_alpha_or_rank()
@@ -380,14 +378,12 @@ def main():
                                 no_tournaments()
                                 break
                             else:
-                                p_table_tournament.field_names = ["n°", "Nom", "Date", "Lieu", "Rounds joués"]
-
                                 # user choose tournament to load
-                                tournament_to_load = t_to_load(p_table_tournament, serialized_tournaments)
-                                rounds_to_display = serialized_tournaments[tournament_to_load - 1]['rounds']
+                                # tournament_to_load = t_to_load(serialized_tournaments)
+                                # rounds_to_display = serialized_tournaments[tournament_to_load - 1]['rounds']
 
                                 # displays rounds and matches of a tournament
-                                rounds_reports(rounds_to_display)
+                                rounds_reports(serialized_tournaments)
 
                                 enter_to_clear()
                                 continue
