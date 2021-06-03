@@ -68,7 +68,7 @@ environement (see above)*
 
 ```bash
 $ cd /project_directory
-$ flake8 -v --max-line-length=119 --format=html --htmldir=flake-report blitz.py ./models ./controllers ./views
+$ flake8 -v --max-line-length=119 --format=html --htmldir=flake8_rapport blitz.py ./models ./controllers ./views
 ```
 
 It creates a 'flake-report' folder in project directory. You can open the 'index.html' file in a web browser to show 
