@@ -40,6 +40,7 @@ $ python blitz.py
 ## Usage
 
 Although it is an application running in a terminal, the menus allow good ergonomics and guide the user easily.
+For a better experience by improving display, run Blitz with terminal in full-screen mode.
 
 * When you start application there are no tournaments running. You have to load a tournament or create a new one in
   Tournament Menu. After you've loaded a tournament you can create a new round. 

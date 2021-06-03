@@ -5,3 +5,5 @@
 /models/__pycache__/
 /views/__pycache__
 /flake-report/
+players.json
+tournaments.json
