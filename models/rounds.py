@@ -13,6 +13,10 @@ class Round:
         self.round_list = []
 
     def starts_round(self, round_number, tournament):
+        """
+        Modifies 'name' and 'start_time' attributs, used by the new instance creation when user creates a new round.
+        Returns a list containing round information
+        """
         self.name = f"round_{round_number}"
         self.start_time = strftime('%a %d %b %Y %H:%M:%S', localtime())
         self.round_list.extend([self.name, self.start_time, self.end_time, self.players_pairs, self.scores])
@@ -21,6 +25,10 @@ class Round:
         return self.round_list
 
     def ends_round(self, scores):
+        """
+        modifies the date of the end of the round. Modifies end date of the round and scores entered by user in round
+        list. Returns this list.
+        """
         self.end_time = strftime('%a %d %b %Y %H:%M:%S', localtime())
         self.round_list[2] = self.end_time
         self.round_list[-1] = scores

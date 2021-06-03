@@ -85,34 +85,36 @@ def main():
                     serialized_tournaments = tournament_db.all()
                     os.system('cls')
                     print(load_tournament_art)
-                    # p_table_tournament.field_names = ["N°", "Nom", "Date", "Lieu", "Rounds joués"]
-                    tournament_to_load = t_to_load(serialized_tournaments)
 
-                    # create new tournament instance using tournament db
-                    tournament = Tournament.deserialize_tournament(serialized_tournaments[tournament_to_load - 1])
-                    round_number = len(tournament.rounds) + 1
+                    if not serialized_tournaments:
+                        no_tournaments()
+                        continue
+                    else:
+                        tournament_to_load = t_to_load(serialized_tournaments)
 
-                    tournament.switch_tournament_on(round_number)
-                    # if not round_number > tournament.num_rounds:
-                    #     tournament.tournament_is_on = True
+                        # create new tournament instance using tournament db
+                        tournament = Tournament.deserialize_tournament(serialized_tournaments[tournament_to_load - 1])
+                        round_number = len(tournament.rounds) + 1
 
-                    print(f"\n\t*** Le tournoi '{serialized_tournaments[tournament_to_load - 1]['name']}'"
-                          f" a bien été chargé ***")
+                        tournament.switch_tournament_on(round_number)
 
-                    enter_to_clear()
-                    # p_table_tournament.clear()
-                    continue
+                        print(f"\n\t*** Le tournoi '{serialized_tournaments[tournament_to_load - 1]['name']}'"
+                              f" a bien été chargé ***")
+
+                        enter_to_clear()
+                        continue
 
                 # **** NEW ROUND ****************************************************************
 
                 elif user_choice == 3:
-                    pairs_sort_rank = tournament.pairs_by_rank()
+                    # pairs_sort_rank = tournament.pairs_by_rank()
                     if confirm_action() == 2:  # User doesn't confirm -> previous menu
                         os.system('cls')
                         continue
                     else:
 
                         if tournament.tournament_is_on:
+                            pairs_sort_rank = tournament.pairs_by_rank()
                             # system creates a round - first evaluates if this is the first round or not.
                             if round_number == 1:
                                 rnd = Round(pairs_sort_rank)
@@ -219,7 +221,6 @@ def main():
                     # if no players in db
                     if not serialized_players:
                         no_players()
-                        enter_to_clear()
                         continue
                     else:
                         display_alpha_or_rank()
@@ -254,21 +255,27 @@ def main():
 
                 if user_choice == 1:
                     os.system('cls')
-                    players_reports(1, serialized_players)
-                    modify_rank(players_db, query, serialized_players)
-
-                    enter_to_clear()
-                    continue
+                    if not serialized_players:
+                        no_players()
+                        continue
+                    else:
+                        players_reports(1, serialized_players)
+                        modify_rank(players_db, query, serialized_players)
+                        enter_to_clear()
+                        continue
 
                 # ***** RANKING  ******************* DISPLAY PLAYERS' RANKING ******************************
 
                 elif user_choice == 2:
                     os.system('cls')
                     print(display_players_art)
-                    players_reports(2, serialized_players)
-
-                    enter_to_clear()
-                    continue
+                    if not serialized_players:
+                        no_players()
+                        continue
+                    else:
+                        players_reports(2, serialized_players)
+                        enter_to_clear()
+                        continue
 
                 elif user_choice == 3:
                     break
