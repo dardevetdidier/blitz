@@ -15,6 +15,9 @@ class Player:
 
     @property
     def serialize_player(self):
+        """
+        serialize player from player instance
+        """
         serialized_player = {
             'player_id': self.player_id,
             'name': self.name,
@@ -27,4 +30,7 @@ class Player:
         return serialized_player
 
     def add_player_to_db(self):
+        """
+        Add a player serialized in players' database"
+        """
         self.players_db.insert(self.serialize_player)

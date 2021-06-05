@@ -6,8 +6,8 @@ class Round:
 
     def __init__(self, players_pairs):
         self.name = ''
-        self.start_time = None  # changes when round is created
-        self.end_time = None  # changes when round is over
+        self.start_time = None  # modified when round is created
+        self.end_time = None  # modified when round is over
         self.players_pairs = players_pairs
         self.scores = None
         self.round_list = []

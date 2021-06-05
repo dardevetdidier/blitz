@@ -2,6 +2,9 @@ from tinydb.operations import set
 
 
 def modify_rank(db, query, players):
+    """
+    User chooses a player in the players' database and enters a new ranking. Updates the database with new ranking
+    """
     id_player_to_modify = 0
     while True:
         try:

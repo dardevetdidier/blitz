@@ -2,6 +2,10 @@ from .art import player_menu_art
 
 
 def choose_item(items):
+    """
+    According to numbers of items in the menu, ask user to enter his choice. Continue asking while user's choice is not
+    in the right range. Returns user_choice (int)
+    """
     user_choice = 0
     while True:
         try:
@@ -31,6 +35,14 @@ def display_tournament_menu():
 \t\t\t|  4: Entrer les résultats et terminer le round
 \t\t\t|  5: Interrompre le tournoi en cours
 \t\t\t|  6: Retour Menu Principal
+""")
+
+
+def display_add_player_menu():
+    print("""
+\t\t\t|  1: Ajouter un joueur enregistré
+\t\t\t|  2: Ajouter un nouveau joueur
+\t\t\t|  3: Annuler la création du tournoi
 """)
 
 

@@ -9,7 +9,7 @@ from controllers.launch_tournament import launch_tournament
 from controllers.enter_results import creates_results_list
 from controllers.confirm import confirm_action
 from controllers.press_to_clear import enter_to_clear
-from controllers.generates_players import generates_players, enters_player_info
+from controllers.generates_players import generates_players, enters_player_info, add_player_from_db
 from controllers.modify_rank import modify_rank
 from views.menu import display_main_menu, display_tournament_menu, display_tournament_running, display_player_menu, \
     display_ranking_menu, display_report_menu, display_players_report, display_tournaments_report_menu, \
@@ -18,8 +18,6 @@ from views.reports import t_to_load, players_reports, tournaments_report, rounds
 from views.display_information import display_info_end_round, display_info_exit_tournament, \
     display_info_tournament_already_running, no_tournaments, no_players
 
-
-# ***************** --> MAIN *****************************
 
 def main():
     tournament_db = TinyDB('tournaments.json', encoding='utf-8', ensure_ascii=False, indent=4)
@@ -66,8 +64,15 @@ def main():
                     else:
                         os.system('cls')
                         if not tournament.tournament_is_on:
-                            # user enters the information of the players and system creates a tournament
-                            players = generates_players(len(players_db))
+                            if not players_db:
+                                # user enters the information of the players and system creates a tournament
+                                players = generates_players(len(players_db))
+                            else:
+                                # user can choose a player in db list or add a new player
+                                players = add_player_from_db()
+                                if not players:
+                                    main()
+
                             tournament = launch_tournament(players)
 
                             # the tournament is written in DB
@@ -107,7 +112,6 @@ def main():
                 # **** NEW ROUND ****************************************************************
 
                 elif user_choice == 3:
-                    # pairs_sort_rank = tournament.pairs_by_rank()
                     if confirm_action() == 2:  # User doesn't confirm -> previous menu
                         os.system('cls')
                         continue
@@ -209,7 +213,7 @@ def main():
                 # ******** PLAYER MENU ********* ENTER A PLAYER IN DB ***************************
                 if user_choice == 1:
                     os.system('cls')
-                    enters_player_info(players_db)
+                    enters_player_info()
                     enter_to_clear()
 
                 # ******** PLAYER MENU ********* DISPLAY ALL PLAYERS IN DB **********************

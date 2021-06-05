@@ -44,7 +44,9 @@ For a better experience by improving display, run Blitz with terminal in full-sc
 
 * When you start application there are no tournaments running. You have to load a tournament or create a new one in
   Tournament Menu. After you've loaded a tournament you can create a new round. 
-* Create a new tournament. The program automaticaly saves information of the players and the tournament.
+* Create a new tournament. You can choose to add a player saved in database or to add him manually.(If players' database
+  is empty you have to add players manually).
+  The program automaticaly saves information of the players and saves the tournament.
 * Create a new round. 
   * A tournament consists of 4 rounds. 
   * The program creates pairs according to the Swiss system. 
@@ -63,8 +65,8 @@ ranking.
   
 ## Generate a new flake8 html report
 
-*flake8 and flake8-html packages are in requirements.txt. To generate the flake8 report you have to activate Virtual
-environement (see above)*
+*flake8 and flake8-html packages are in requirements.txt. To generate the flake8 report you have to first 
+activate Virtual environment (see above)*
 
 ```bash
 $ cd /project_directory

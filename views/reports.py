@@ -47,7 +47,7 @@ def tournaments_report(table_obj_tournaments, tournaments):
     display_tournaments_table(tournaments)
 
     for i in range(len(tournaments)):
-        print(f"\n\t\t   Liste des joueurs du tournoi {i + 1}:\n")
+        print(f"\n\t\t   Liste des joueurs du tournoi {i + 1}:")
         players_to_display = tournaments[i]['players']
         players_reports(1, players_to_display)
         table_obj_tournaments.clear()
@@ -110,5 +110,5 @@ def players_reports(user_choice, players):
         p_table_players.sortby = "Classement"
         print("\t\t       Joueurs (par classement)")
 
-    print(p_table_players)
+    print(f"\n{p_table_players}")
     p_table_players.clear()

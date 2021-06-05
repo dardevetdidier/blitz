@@ -1,5 +1,7 @@
 def enter_results(player1, player2):
-    """User enters results of the round. Returns Tuple of 2 lists ([player1, score1], [player2, score2])"""
+    """
+    User enters results of the round. Returns Tuple of 2 lists ([player1, score1], [player2, score2])
+    """
     player1_score = 0.1
     player2_score = 0.1
     score_list = [0.0, 0.5, 1.0]
@@ -16,6 +18,10 @@ def enter_results(player1, player2):
 
 
 def creates_results_list(round_nb, pairs_rank, pairs_score):
+    """
+    Use 'enter_results' function to enter results of the round and. Append each result in a list.
+    returns a list of all results of the round.
+    """
     results_list = []
     if round_nb == 1:
         for i in range(len(pairs_rank)):
